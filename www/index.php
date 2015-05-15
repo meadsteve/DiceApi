@@ -13,8 +13,14 @@ $app->get("/", function(Request$request, Response $response) {
 });
 
 $app->get("{dice:(?:/[0-9]*[dD][0-9]+)+/?}", function(Request $request, Response $response, $args) {
-    $response->write("dice: " . $args['dice']);
-    return $response;
+    $diceResponse = $response->withHeader("cache-control", "no-cache")
+        ->withHeader("Content-Type", "application/json");
+    $data = [
+        "success" => true,
+        "debug" => $args['dice']
+    ];
+    $diceResponse->write(json_encode($data));
+    return $diceResponse;
 });
 
 $app->run();

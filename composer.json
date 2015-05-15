@@ -13,5 +13,11 @@
 
   "require-dev": {
     "heroku/heroku-buildpack-php": "v67"
+  },
+
+  "autoload": {
+    "psr-4": {
+       "MeadSteve\\DiceApi\\": "src/"
+    }
   }
 }

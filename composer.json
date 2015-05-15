@@ -9,5 +9,9 @@
   ],
   "require": {
     "slim/slim": "3.0.x-dev"
+  },
+
+  "require-dev": {
+    "heroku/heroku-buildpack-php": "v67"
   }
 }

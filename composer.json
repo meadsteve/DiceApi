@@ -1,0 +1,13 @@
+{
+  "name": "mead-steve/dice_api",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Steve Brazier",
+      "email": "meadsteve@gmail.com"
+    }
+  ],
+  "require": {
+    "slim/slim": "3.0.x-dev"
+  }
+}

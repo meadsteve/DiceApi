@@ -12,7 +12,7 @@ $app->get("/", function(Request$request, Response $response) {
     return $response;
 });
 
-$app->get("{dice:(?:/[0-9]*d[0-9]+)+/?}", function(Request $request, Response $response, $args) {
+$app->get("{dice:(?:/[0-9]*[dD][0-9]+)+/?}", function(Request $request, Response $response, $args) {
     $response->write("dice: " . $args['dice']);
     return $response;
 });

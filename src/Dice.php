@@ -21,7 +21,10 @@ class Dice implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return $this->roll();
+        return [
+            "value" => $this->roll(),
+            "size" => "d" . $this->size()
+        ];
     }
 
     public function roll()

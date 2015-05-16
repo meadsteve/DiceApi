@@ -3,7 +3,6 @@
 
 namespace MeadSteve\DiceApi;
 
-
 class Dice implements \JsonSerializable
 {
 

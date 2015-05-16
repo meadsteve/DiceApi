@@ -23,9 +23,16 @@ class DiceApp extends App
 
     public function index(Request $request, Response $response)
     {
-        $converter = new CommonMarkConverter();
-        $indexContent = $converter->convertToHtml(file_get_contents(__DIR__ . "/../README.md"));
-        $response->write($indexContent);
+        $indexFilePath = __DIR__ . "/generated-index.html";
+        if (!file_exists($indexFilePath)) {
+            $converter = new CommonMarkConverter();
+            $indexContent = $converter->convertToHtml(file_get_contents(__DIR__ . "/../README.md"));
+            file_put_contents($indexFilePath, $indexContent);
+            $response->write($indexContent);
+        } else {
+            $indexContent = file_get_contents($indexFilePath);
+            $response->write($indexContent);
+        }
         return $response;
     }
 

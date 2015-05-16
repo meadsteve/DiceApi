@@ -27,7 +27,7 @@ Response:
   "success":true,
   "dice":[
     {"value":2,"size":"d6"},
-    {"value":18,"size":"d20"},
+    {"value":18,"size":"d20"}
   ]
 }
 ```
@@ -42,7 +42,7 @@ Response:
   "dice":[
     {"value":2,"size":"d6"},
     {"value":4,"size":"d6"},
-    {"value":3,"size":"d4"},
+    {"value":3,"size":"d4"}
   ]
 }
 ```

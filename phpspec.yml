@@ -1,0 +1,4 @@
+suites:
+  dice_api_suite:
+    namespace: MeadSteve\DiceApi
+    psr4_prefix: MeadSteve\DiceApi

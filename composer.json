@@ -12,7 +12,8 @@
   },
 
   "require-dev": {
-    "heroku/heroku-buildpack-php": "v67"
+    "heroku/heroku-buildpack-php": "v67",
+    "phpspec/phpspec": "2.2.0"
   },
 
   "autoload": {

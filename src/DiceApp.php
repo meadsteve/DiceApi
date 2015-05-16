@@ -1,6 +1,7 @@
 <?php
 namespace MeadSteve\DiceApi;
 
+use League\CommonMark\CommonMarkConverter;
 use MeadSteve\DiceApi\Dice\DiceGenerator;
 use Slim\App;
 use Slim\Http\Request;
@@ -22,7 +23,9 @@ class DiceApp extends App
 
     public function index(Request $request, Response $response)
     {
-        $response->write("index");
+        $converter = new CommonMarkConverter();
+        $indexContent = $converter->convertToHtml(file_get_contents(__DIR__ . "/../README.md"));
+        $response->write($indexContent);
         return $response;
     }
 

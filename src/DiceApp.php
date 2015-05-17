@@ -63,7 +63,7 @@ class DiceApp extends App
         $dice = $this->diceGenerator->diceFromUrlString($args['dice']);
         try {
             $diceResponse = $this->writeAppropriateFormatResponse($request, $diceResponse, $dice);
-            //$this->diceCounter->count($dice);
+            $this->diceCounter->count($dice);
         } catch (UnrenderableDiceException $renderError) {
             $diceResponse = $diceResponse->withStatus(400)
                 ->write("Unable to render request: " . $renderError->getMessage());

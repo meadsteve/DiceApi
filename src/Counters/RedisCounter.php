@@ -4,6 +4,7 @@ namespace MeadSteve\DiceApi\Counters;
 
 use MeadSteve\DiceApi\Dice;
 use Predis\Client;
+use Predis\Connection\ConnectionException;
 
 class RedisCounter
 {
@@ -21,8 +22,12 @@ class RedisCounter
      */
     public function count(array $diceCollection)
     {
-        foreach ($diceCollection as $dice) {
-            $this->redisClient->incr('dice-count-d' . $dice->size());
+        try {
+            foreach ($diceCollection as $dice) {
+                $this->redisClient->incr('dice-count-d' . $dice->size());
+            }
+        } catch (ConnectionException $connectError) {
+            return false;
         }
         return true;
     }

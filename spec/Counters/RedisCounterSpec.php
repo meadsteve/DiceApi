@@ -4,6 +4,7 @@ namespace spec\MeadSteve\DiceApi\Counters;
 
 use MeadSteve\DiceApi\Dice;
 use PhpSpec\ObjectBehavior;
+use Predis\Connection\ConnectionException;
 use Prophecy\Argument;
 
 require_once __DIR__ . "/RedisClientMock.php";
@@ -42,5 +43,12 @@ class RedisCounterSpec extends ObjectBehavior
         $this->count([$d6, $d4, $d6]);
         $redisClient->incr("dice-count-d6")->shouldHaveBeenCalledTimes(2);
         $redisClient->incr("dice-count-d4")->shouldHaveBeenCalledTimes(1);
+    }
+
+    function it_ignores_connection_errors(Dice $dice, RedisClient $redisClient)
+    {
+
+        $redisClient->incr(Argument::any())->willThrow(ConnectionException::class);
+        $this->count([$dice])->shouldReturn(false);
     }
 }

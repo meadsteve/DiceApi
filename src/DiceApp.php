@@ -26,7 +26,9 @@ class DiceApp extends App
         $indexFilePath = __DIR__ . "/generated-index.html";
         if (!file_exists($indexFilePath)) {
             $converter = new CommonMarkConverter();
-            $indexContent = $converter->convertToHtml(file_get_contents(__DIR__ . "/../README.md"));
+            $indexBody = $converter->convertToHtml(file_get_contents(__DIR__ . "/../README.md"));
+            $indexContent = file_get_contents(__DIR__ . "/../www/templates/index.html");
+            $indexContent = str_replace("{{body}}", $indexBody, $indexContent);
             file_put_contents($indexFilePath, $indexContent);
             $response->write($indexContent);
         } else {

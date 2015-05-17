@@ -7,6 +7,8 @@ use MeadSteve\DiceApi\Counters\RedisCounter;
 use MeadSteve\DiceApi\Dice\DiceGenerator;
 use MeadSteve\DiceApi\Renderer\Html;
 use MeadSteve\DiceApi\Renderer\Json;
+use MeadSteve\DiceApi\Renderer\RendererFactory;
+use MeadSteve\DiceApi\Renderer\UnknownRendererException;
 use MeadSteve\DiceApi\Renderer\UnrenderableDiceException;
 use Predis\Client;
 use Slim\App;
@@ -78,32 +80,15 @@ class DiceApp extends App
     private function writeAppropriateFormatResponse(Request $request, Response $response, $dice)
     {
         $requestedContentType = $request->getAttribute('Accept', "application/json");
-        switch ($requestedContentType) {
-            case "application/json":
-                $responseWithOutput = $this->jsonDiceResponse($response, $dice);
-                break;
-            case "text/html":
-                $responseWithOutput = $this->htmlDiceResponse($response, $dice);
-                break;
-            default:
-                $responseWithOutput = $response->withStatus(406);
-                $responseWithOutput->write("Not sure how to respond with: " . $requestedContentType);
-                break;
+        try {
+            $rendererFactory = new RendererFactory();
+            $renderer = $rendererFactory->newForAcceptType($requestedContentType);
+            $responseWithOutput = $response->write($renderer->renderDice($dice))
+                ->withHeader("Content-Type", $requestedContentType);
+        } catch (UnknownRendererException $error) {
+            $responseWithOutput = $response->withStatus(406);
+            $responseWithOutput->write("Not sure how to respond with: " . $requestedContentType);
         }
         return $responseWithOutput;
-    }
-
-    private function jsonDiceResponse(Response $response, array $dice)
-    {
-        $renderer = new Json();
-        $response->write($renderer->renderDice($dice));
-        return $response->withHeader("Content-Type", "application/json");
-    }
-
-    private function htmlDiceResponse(Response $response, array $dice)
-    {
-        $renderer = new Html('http://' . $_SERVER['HTTP_HOST']);
-        $response->write($renderer->renderDice($dice));
-        return $response->withHeader("Content-Type", "text/html");
     }
 }

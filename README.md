@@ -3,7 +3,7 @@
 
 This is a semi joking api to simulate a pile of dice being thrown. The idea is fully inspired by/stolen from [deckofcardsapi.com](http://deckofcardsapi.com/). If you find any bugs or have feature requests, the project can be found on github at [DiceApi on GitHub](https://github.com/meadsteve/DiceApi/) or send me a tweet [@MeadSteve](https://twitter.com/MeadSteve).
 
-## Usage 
+## Rolling 
 ### Roll a single dice
 ```GET http://roll.diceapi.com/d6```
 
@@ -46,3 +46,24 @@ Response:
   ]
 }
 ```
+## Response types
+By default the API assumes you want a json response. You have other options though:
+
+### text/html
+This response type currently only supports d6 rolls.
+
+```GET http://roll.diceapi.com/d6 [Accept: text/html]```
+
+```GET http://roll.diceapi.com/html/d6```
+
+Response:
+```html
+<img src="http://roll.diceapi.com/images/poorly-drawn/d6.4.png" />
+```
+![dice with 4 spots](http://roll.diceapi.com/images/poorly-drawn/d6.4.png)
+
+### application/json
+
+```GET http://roll.diceapi.com/d6 [Accept: application/json]```
+
+```GET http://roll.diceapi.com/html/d6```

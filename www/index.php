@@ -9,8 +9,6 @@ require __DIR__ . "/../vendor/autoload.php";
 
 $diceGenerator = new DiceGenerator();
 
-$_ENV['REDIS_URL'] = "redis://h:pele4juml124ic26bv84rj4akif@ec2-107-22-167-67.compute-1.amazonaws.com:6629";
-
 $redis = new Client([
     'host' => parse_url($_ENV['REDIS_URL'], PHP_URL_HOST),
     'port' => parse_url($_ENV['REDIS_URL'], PHP_URL_PORT),

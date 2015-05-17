@@ -22,6 +22,9 @@ class Html implements DiceRenderer
     public function htmlForSingleDice(Dice $dice)
     {
         $size = $dice->size();
+        if ($size != 6) {
+            throw new UnrenderableDiceException("Currently only d6 can be rendered as html");
+        }
         $roll = $dice->roll();
         $url = "{$this->urlRoot}/images/poorly-drawn/d{$size}.{$roll}.png";
         return '<img src="' . $url . '" />';

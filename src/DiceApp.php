@@ -4,6 +4,7 @@ namespace MeadSteve\DiceApi;
 use League\CommonMark\CommonMarkConverter;
 use MeadSteve\DiceApi\Dice\DiceGenerator;
 use MeadSteve\DiceApi\Renderer\Html;
+use MeadSteve\DiceApi\Renderer\UnrenderableDiceException;
 use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -50,20 +51,31 @@ class DiceApp extends App
     {
         $diceResponse = $response->withHeader("cache-control", "no-cache");
         $dice = $this->diceGenerator->diceFromUrlString($args['dice']);
+        try {
+            $diceResponse = $this->writeAppropriateFormatResponse($request, $diceResponse, $dice);
+        } catch (UnrenderableDiceException $renderError) {
+            $diceResponse = $diceResponse->withStatus(400)
+                ->write("Unable to render request: " . $renderError->getMessage());
+        }
+        return $diceResponse;
+    }
+
+    private function writeAppropriateFormatResponse(Request $request, Response $response, $dice)
+    {
         $requestedContentType = $request->getAttribute('Accept', "application/json");
         switch ($requestedContentType) {
             case "application/json":
-                $diceResponse = $this->jsonDiceResponse($diceResponse, $dice);
+                $responseWithOutput = $this->jsonDiceResponse($response, $dice);
                 break;
             case "text/html":
-                $diceResponse = $this->htmlDiceResponse($diceResponse, $dice);
+                $responseWithOutput = $this->htmlDiceResponse($response, $dice);
                 break;
             default:
-                $diceResponse = $response->withStatus(406);
-                $diceResponse->write("Not sure how to respond with: " . $requestedContentType);
+                $responseWithOutput = $response->withStatus(406);
+                $responseWithOutput->write("Not sure how to respond with: " . $requestedContentType);
                 break;
         }
-        return $diceResponse;
+        return $responseWithOutput;
     }
 
     private function jsonDiceResponse(Response $response, array $dice)

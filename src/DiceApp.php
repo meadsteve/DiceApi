@@ -2,6 +2,7 @@
 namespace MeadSteve\DiceApi;
 
 use League\CommonMark\CommonMarkConverter;
+use MeadSteve\DiceApi\Counters\DiceCounter;
 use MeadSteve\DiceApi\Counters\RedisCounter;
 use MeadSteve\DiceApi\Dice\DiceGenerator;
 use MeadSteve\DiceApi\Renderer\Html;
@@ -16,18 +17,12 @@ class DiceApp extends App
     private $diceGenerator;
     private $diceCounter;
 
-    public function __construct()
+    public function __construct(DiceGenerator $diceGenerator, DiceCounter $diceCounter)
     {
         parent::__construct();
 
-        $this->diceGenerator = new DiceGenerator();
-
-        $redis = new Client([
-            'host' => parse_url($_ENV['REDIS_URL'], PHP_URL_HOST),
-            'port' => parse_url($_ENV['REDIS_URL'], PHP_URL_PORT),
-            'password' => parse_url($_ENV['REDIS_URL'], PHP_URL_PASS),
-        ]);
-        $this->diceCounter = new RedisCounter($redis);
+        $this->diceGenerator = $diceGenerator;
+        $this->diceCounter = $diceCounter;
 
         $this->get("/", [$this, 'index']);
         $this->get("{dice:(?:/[0-9]*[dD][0-9]+)+/?}", [$this, 'getDice']);

@@ -6,7 +6,7 @@ use MeadSteve\DiceApi\Dice;
 use Predis\Client;
 use Predis\Connection\ConnectionException;
 
-class RedisCounter
+class RedisCounter implements DiceCounter
 {
 
     private $redisClient;

@@ -6,6 +6,7 @@ use MeadSteve\DiceApi\Counters\DiceCounter;
 use MeadSteve\DiceApi\Counters\RedisCounter;
 use MeadSteve\DiceApi\Dice\DiceGenerator;
 use MeadSteve\DiceApi\Renderer\Html;
+use MeadSteve\DiceApi\Renderer\Json;
 use MeadSteve\DiceApi\Renderer\UnrenderableDiceException;
 use Predis\Client;
 use Slim\App;
@@ -94,11 +95,8 @@ class DiceApp extends App
 
     private function jsonDiceResponse(Response $response, array $dice)
     {
-        $data = [
-            "success" => true,
-            "dice" => $dice
-        ];
-        $response->write(json_encode($data));
+        $renderer = new Json();
+        $response->write($renderer->renderDice($dice));
         return $response->withHeader("Content-Type", "application/json");
     }
 

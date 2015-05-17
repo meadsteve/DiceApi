@@ -2,9 +2,11 @@
 namespace MeadSteve\DiceApi;
 
 use League\CommonMark\CommonMarkConverter;
+use MeadSteve\DiceApi\Counters\RedisCounter;
 use MeadSteve\DiceApi\Dice\DiceGenerator;
 use MeadSteve\DiceApi\Renderer\Html;
 use MeadSteve\DiceApi\Renderer\UnrenderableDiceException;
+use Predis\Client;
 use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -12,12 +14,20 @@ use Slim\Http\Response;
 class DiceApp extends App
 {
     private $diceGenerator;
+    private $diceCounter;
 
     public function __construct()
     {
         parent::__construct();
 
         $this->diceGenerator = new DiceGenerator();
+
+        $redis = new Client([
+            'host' => parse_url($_ENV['REDIS_URL'], PHP_URL_HOST),
+            'port' => parse_url($_ENV['REDIS_URL'], PHP_URL_PORT),
+            'password' => parse_url($_ENV['REDIS_URL'], PHP_URL_PASS),
+        ]);
+        $this->diceCounter = new RedisCounter($redis);
 
         $this->get("/", [$this, 'index']);
         $this->get("{dice:(?:/[0-9]*[dD][0-9]+)+/?}", [$this, 'getDice']);
@@ -53,6 +63,7 @@ class DiceApp extends App
         $dice = $this->diceGenerator->diceFromUrlString($args['dice']);
         try {
             $diceResponse = $this->writeAppropriateFormatResponse($request, $diceResponse, $dice);
+            $this->diceCounter->count($dice);
         } catch (UnrenderableDiceException $renderError) {
             $diceResponse = $diceResponse->withStatus(400)
                 ->write("Unable to render request: " . $renderError->getMessage());

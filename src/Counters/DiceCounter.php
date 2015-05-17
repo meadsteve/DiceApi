@@ -10,4 +10,9 @@ interface DiceCounter
      * @return bool
      */
     public function count(array $diceCollection);
+
+    /**
+     * @return array
+     */
+    public function getCounts();
 }

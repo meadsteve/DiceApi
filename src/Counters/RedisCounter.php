@@ -24,11 +24,19 @@ class RedisCounter implements DiceCounter
     {
         try {
             foreach ($diceCollection as $dice) {
-                $this->redisClient->incr('dice-count-d' . $dice->size());
+                $this->redisClient->hincrby("dice-count", (string) $dice->size(), 1);
             }
         } catch (ConnectionException $connectError) {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCounts()
+    {
+        return $this->redisClient->hgetall("dice-count");
     }
 }

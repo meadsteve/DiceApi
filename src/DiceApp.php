@@ -25,6 +25,7 @@ class DiceApp extends App
         $this->diceCounter = $diceCounter;
 
         $this->get("/", [$this, 'index']);
+        $this->get("/dice-stats", [$this, 'diceStats']);
         $this->get("{dice:(?:/[0-9]*[dD][0-9]+)+/?}", [$this, 'getDice']);
 
         $this->get("/html{dice:(?:/[0-9]*[dD][0-9]+)+/?}", function (Request $request, $response, $args) {
@@ -50,6 +51,13 @@ class DiceApp extends App
             $response->write($indexContent);
         }
         return $response;
+    }
+
+    public function diceStats(Request $request, Response $response)
+    {
+        $countData = $this->diceCounter->getCounts();
+        return $response->write(json_encode($countData))
+            ->withHeader("Content-Type", "application/json");
     }
 
     public function getDice(Request $request, Response $response, $args)

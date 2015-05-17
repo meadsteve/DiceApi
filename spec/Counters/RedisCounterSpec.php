@@ -14,7 +14,8 @@ class RedisCounterSpec extends ObjectBehavior
     function let(RedisClient $redisClient)
     {
         $this->beConstructedWith($redisClient);
-        $redisClient->incr(Argument::any())->willReturn(true);
+        $redisClient->hincrby("dice-count", Argument::any(), 1)->willReturn(true);
+        $redisClient->hgetall("dice-count")->willReturn([]);
     }
 
     function it_is_initializable()
@@ -26,14 +27,14 @@ class RedisCounterSpec extends ObjectBehavior
     {
         $dice->size()->willReturn(6);
         $this->count([$dice]);
-        $redisClient->incr("dice-count-d6")->shouldHaveBeenCalledTimes(1);
+        $redisClient->hincrby("dice-count", "6", 1)->shouldHaveBeenCalledTimes(1);
     }
 
     function it_counts_multiple_dice_of_a_single_type(Dice $dice, RedisClient $redisClient)
     {
         $dice->size()->willReturn(6);
         $this->count([$dice, $dice]);
-        $redisClient->incr("dice-count-d6")->shouldHaveBeenCalledTimes(2);
+        $redisClient->hincrby("dice-count", "6", 1)->shouldHaveBeenCalledTimes(2);
     }
 
     function it_counts_multiple_dice_of_multiple_types(Dice $d6, Dice $d4, RedisClient $redisClient)
@@ -41,14 +42,20 @@ class RedisCounterSpec extends ObjectBehavior
         $d6->size()->willReturn(6);
         $d4->size()->willReturn(4);
         $this->count([$d6, $d4, $d6]);
-        $redisClient->incr("dice-count-d6")->shouldHaveBeenCalledTimes(2);
-        $redisClient->incr("dice-count-d4")->shouldHaveBeenCalledTimes(1);
+        $redisClient->hincrby("dice-count", "6", 1)->shouldHaveBeenCalledTimes(2);
+        $redisClient->hincrby("dice-count", "4", 1)->shouldHaveBeenCalledTimes(1);
     }
 
     function it_ignores_connection_errors(Dice $dice, RedisClient $redisClient)
     {
-
-        $redisClient->incr(Argument::any())->willThrow(ConnectionException::class);
+        $dice->size()->willReturn(6);
+        $redisClient->hincrby("dice-count", Argument::any(), 1)->willThrow(ConnectionException::class);
         $this->count([$dice])->shouldReturn(false);
+    }
+
+    function it_returns_the_current_counts(RedisClient $redisClient, $diceCountData)
+    {
+        $redisClient->hgetall("dice-count")->willReturn($diceCountData);
+        $this->getCounts()->shouldReturn($diceCountData);
     }
 }

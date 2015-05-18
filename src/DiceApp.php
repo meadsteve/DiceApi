@@ -3,14 +3,10 @@ namespace MeadSteve\DiceApi;
 
 use League\CommonMark\CommonMarkConverter;
 use MeadSteve\DiceApi\Counters\DiceCounter;
-use MeadSteve\DiceApi\Counters\RedisCounter;
 use MeadSteve\DiceApi\Dice\DiceGenerator;
-use MeadSteve\DiceApi\Renderer\Html;
-use MeadSteve\DiceApi\Renderer\Json;
 use MeadSteve\DiceApi\Renderer\RendererFactory;
 use MeadSteve\DiceApi\Renderer\UnknownRendererException;
 use MeadSteve\DiceApi\Renderer\UnrenderableDiceException;
-use Predis\Client;
 use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;

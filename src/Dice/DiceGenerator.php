@@ -2,7 +2,7 @@
 
 namespace MeadSteve\DiceApi\Dice;
 
-use MeadSteve\DiceApi\Dice;
+use MeadSteve\DiceApi\BasicDice;
 
 class DiceGenerator
 {
@@ -18,7 +18,7 @@ class DiceGenerator
                     $data["count"] = 1;
                 }
                 for ($i = 0; $i < $data["count"]; $i++) {
-                    $dice[] = new Dice($data["size"]);
+                    $dice[] = new BasicDice($data["size"]);
                 }
             }
         }

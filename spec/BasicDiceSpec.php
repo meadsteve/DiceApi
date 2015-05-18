@@ -5,7 +5,7 @@ namespace spec\MeadSteve\DiceApi;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class DiceSpec extends ObjectBehavior
+class BasicDiceSpec extends ObjectBehavior
 {
     private $diceSize = 6;
 
@@ -15,6 +15,7 @@ class DiceSpec extends ObjectBehavior
     }
     function it_is_initializable()
     {
+        $this->shouldHaveType('MeadSteve\DiceApi\BasicDice');
         $this->shouldHaveType('MeadSteve\DiceApi\Dice');
     }
 

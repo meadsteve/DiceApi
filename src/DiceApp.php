@@ -4,6 +4,7 @@ namespace MeadSteve\DiceApi;
 use League\CommonMark\CommonMarkConverter;
 use MeadSteve\DiceApi\Counters\DiceCounter;
 use MeadSteve\DiceApi\Dice\DiceGenerator;
+use MeadSteve\DiceApi\Dice\UncreatableDiceException;
 use MeadSteve\DiceApi\Renderer\RendererFactory;
 use MeadSteve\DiceApi\Renderer\UnknownRendererException;
 use MeadSteve\DiceApi\Renderer\UnrenderableDiceException;
@@ -62,10 +63,13 @@ class DiceApp extends App
     public function getDice(Request $request, Response $response, $args)
     {
         $diceResponse = $response->withHeader("cache-control", "no-cache");
-        $dice = $this->diceGenerator->diceFromUrlString($args['dice']);
         try {
+            $dice = $this->diceGenerator->diceFromUrlString($args['dice']);
             $diceResponse = $this->writeAppropriateFormatResponse($request, $diceResponse, $dice);
             $this->diceCounter->count($dice);
+        } catch (UncreatableDiceException $creationError) {
+            $diceResponse = $diceResponse->withStatus(400)
+                ->write("Unable to roll dice: " . $creationError->getMessage());
         } catch (UnrenderableDiceException $renderError) {
             $diceResponse = $diceResponse->withStatus(400)
                 ->write("Unable to render request: " . $renderError->getMessage());

@@ -28,4 +28,9 @@ class DiceGeneratorSpec extends ObjectBehavior
     {
         $this->diceFromUrlString("/2d4")->shouldBeLike([new BasicDice(4), new BasicDice(4)]);
     }
+
+    function it_throws_an_exception_for_anything_over_a_d_9000()
+    {
+        $this->shouldThrow(Dice\UncreatableDiceException::class)->duringDiceFromUrlString("/d9001");
+    }
 }

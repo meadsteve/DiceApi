@@ -14,6 +14,9 @@ class DiceGenerator
             $data = [];
             $valid = preg_match("/(?P<count>[0-9]+)?d(?P<size>[0-9]+)/i", $part, $data);
             if ($valid) {
+                if ((strlen($data["size"]) > 4) || ($data["size"] > 9000)) {
+                    throw new UncreatableDiceException("Only dice with a power level less than 9000 can be created.");
+                }
                 if (!$data["count"]) {
                     $data["count"] = 1;
                 }

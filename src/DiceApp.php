@@ -75,7 +75,8 @@ class DiceApp extends App
 
     private function writeAppropriateFormatResponse(Request $request, Response $response, $dice)
     {
-        $requestedContentType = $request->getAttribute('accept', "application/json");
+        $acceptHeader = $request->getHeader('accept');
+        $requestedContentType = $acceptHeader[0];
         try {
             $rendererFactory = new RendererFactory();
             $renderer = $rendererFactory->newForAcceptType($requestedContentType);

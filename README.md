@@ -5,7 +5,7 @@ This is a semi joking api to simulate a pile of dice being thrown. The idea is f
 
 ## Rolling 
 ### Roll a single dice
-```GET http://roll.diceapi.com/d6```
+```GET http://roll.diceapi.com/json/d6```
 
 Response:
 ```json
@@ -19,7 +19,7 @@ Response:
 
 
 ### Roll multiple dice
-```GET http://roll.diceapi.com/d6/d20```
+```GET http://roll.diceapi.com/json/d6/d20```
 
 Response:
 ```json
@@ -33,7 +33,7 @@ Response:
 ```
 
 ### Roll batches of dice
-```GET http://roll.diceapi.com/2d6/d4```
+```GET http://roll.diceapi.com/json/2d6/d4```
 
 Response:
 ```json
@@ -47,7 +47,7 @@ Response:
 }
 ```
 ## Response types
-By default the API assumes you want a json response. You have other options though:
+By default the API assumes you want an html response. You have other options though:
 
 ### text/html
 This response type currently only supports d6 rolls.
@@ -66,4 +66,4 @@ Response:
 
 ```GET http://roll.diceapi.com/d6 [Accept: application/json]```
 
-```GET http://roll.diceapi.com/html/d6```
+```GET http://roll.diceapi.com/json/d6```

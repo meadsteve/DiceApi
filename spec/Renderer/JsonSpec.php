@@ -15,10 +15,10 @@ class JsonSpec extends ObjectBehavior
 
     function it_uses_the_json_encode_function_of_the_dice(Dice $dice)
     {
-        $diceJson = "DICE-JSON";
-        $dice->jsonSerialize()->willReturn($diceJson);
+        $dice->roll()->willReturn(5);
+        $dice->size()->willReturn(6);
 
-        $expectedJson = '{"success":true,"dice":["' . $diceJson . '"]}';
-        $this->renderDice([$diceJson])->shouldReturn($expectedJson);
+        $expectedJson = '{"success":true,"dice":[{"value":5,"size":"d6"}]}';
+        $this->renderDice([$dice])->shouldReturn($expectedJson);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace MeadSteve\DiceApi\Renderer;
 
+use MeadSteve\DiceApi\Dice;
+
 class Json implements DiceRenderer
 {
 
@@ -9,7 +11,7 @@ class Json implements DiceRenderer
     {
         $data = [
             "success" => true,
-            "dice" => $diceCollection
+            "dice" => $this->diceAsAssocArrays($diceCollection)
         ];
         return json_encode($data);
     }
@@ -20,5 +22,15 @@ class Json implements DiceRenderer
     public function contentType()
     {
         return "application/json";
+    }
+
+    private function diceAsAssocArrays(array $diceCollection)
+    {
+        return array_map(function (Dice $dice) {
+            return [
+                "value" => $dice->roll(),
+                "size" => "d" . $dice->size()
+            ];
+        }, $diceCollection);
     }
 }

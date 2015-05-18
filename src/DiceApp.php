@@ -28,10 +28,10 @@ class DiceApp extends App
         $this->get("{dice:(?:/[0-9]*[dD][0-9]+)+/?}", [$this, 'getDice']);
 
         $this->get("/html{dice:(?:/[0-9]*[dD][0-9]+)+/?}", function (Request $request, $response, $args) {
-            return $this->getDice($request->withAttribute('accept', 'text/html'), $response, $args);
+            return $this->getDice($request->withHeader('accept', 'text/html'), $response, $args);
         });
         $this->get("/json{dice:(?:/[0-9]*[dD][0-9]+)+/?}", function (Request $request, $response, $args) {
-            return $this->getDice($request->withAttribute('accept', 'application/json'), $response, $args);
+            return $this->getDice($request->withHeader('accept', 'application/json'), $response, $args);
         });
     }
 

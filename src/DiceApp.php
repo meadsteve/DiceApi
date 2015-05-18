@@ -5,6 +5,7 @@ use League\CommonMark\CommonMarkConverter;
 use MeadSteve\DiceApi\Counters\DiceCounter;
 use MeadSteve\DiceApi\Dice\DiceGenerator;
 use MeadSteve\DiceApi\Dice\UncreatableDiceException;
+use MeadSteve\DiceApi\DiceDecorators\TotallyLegit;
 use MeadSteve\DiceApi\Renderer\RendererFactory;
 use MeadSteve\DiceApi\Renderer\UnknownRendererException;
 use MeadSteve\DiceApi\Renderer\UnrenderableDiceException;
@@ -65,6 +66,9 @@ class DiceApp extends App
         $diceResponse = $response->withHeader("cache-control", "no-cache");
         try {
             $dice = $this->diceGenerator->diceFromUrlString($args['dice']);
+            if ($request->hasHeader('totally-legit')) {
+                $dice = $this->makeDiceTotallyLegit($dice, $request);
+            }
             $diceResponse = $this->writeAppropriateFormatResponse($request, $diceResponse, $dice);
             $this->diceCounter->count($dice);
         } catch (UncreatableDiceException $creationError) {
@@ -91,5 +95,16 @@ class DiceApp extends App
             $responseWithOutput->write("Not sure how to respond with: " . $requestedContentType);
         }
         return $responseWithOutput;
+    }
+
+    private function makeDiceTotallyLegit($dice, Request $request)
+    {
+        $rolledValue = $request->getHeader('totally-legit');
+        return array_map(
+            function (Dice $dice) use ($rolledValue) {
+                return new TotallyLegit($dice, (int)$rolledValue);
+            },
+            $dice
+        );
     }
 }

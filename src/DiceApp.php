@@ -99,10 +99,10 @@ class DiceApp extends App
 
     private function makeDiceTotallyLegit($dice, Request $request)
     {
-        $rolledValue = $request->getHeader('totally-legit');
+        $rolledValue = $request->getHeader('totally-legit')[0];
         return array_map(
             function (Dice $dice) use ($rolledValue) {
-                return new TotallyLegit($dice, (int)$rolledValue);
+                return new TotallyLegit($dice, (int) $rolledValue);
             },
             $dice
         );

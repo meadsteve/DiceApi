@@ -19,6 +19,14 @@ class Html implements DiceRenderer
         return implode('', $diceHtmlParts);
     }
 
+    /**
+     * @return string
+     */
+    public function contentType()
+    {
+        return "text/html";
+    }
+
     public function htmlForSingleDice(Dice $dice)
     {
         $size = $dice->size();

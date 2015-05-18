@@ -81,7 +81,7 @@ class DiceApp extends App
             $rendererFactory = new RendererFactory();
             $renderer = $rendererFactory->newForAcceptType($requestedContentType);
             $responseWithOutput = $response->write($renderer->renderDice($dice))
-                ->withHeader("Content-Type", $requestedContentType);
+                ->withHeader("Content-Type", $renderer->contentType());
         } catch (UnknownRendererException $error) {
             $responseWithOutput = $response->withStatus(406);
             $responseWithOutput->write("Not sure how to respond with: " . $requestedContentType);

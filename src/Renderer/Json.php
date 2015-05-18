@@ -13,4 +13,12 @@ class Json implements DiceRenderer
         ];
         return json_encode($data);
     }
+
+    /**
+     * @return string
+     */
+    public function contentType()
+    {
+        return "application/json";
+    }
 }

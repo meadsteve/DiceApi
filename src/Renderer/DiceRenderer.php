@@ -10,4 +10,9 @@ interface DiceRenderer
      * @return mixed
      */
     public function renderDice(array $diceCollection);
+
+    /**
+     * @return string
+     */
+    public function contentType();
 }

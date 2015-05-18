@@ -1,10 +1,10 @@
 <?php
 namespace MeadSteve\DiceApi\Counters;
+
 use MeadSteve\DiceApi\Dice;
 
 class NullCounter implements DiceCounter
 {
-
     /**
      * @param Dice[] $diceCollection
      * @return bool

@@ -14,8 +14,6 @@ class DiceAppTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        // This is a hack as the response builder uses this global directly
-        // sorry.
         $this->app = new DiceApp(
             new DiceGenerator(),
             new RendererFactory('http://test.com'),

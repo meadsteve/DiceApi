@@ -1,5 +1,6 @@
 # DiceApi
 [![Build Status](https://travis-ci.org/meadsteve/DiceApi.svg?branch=master)](https://travis-ci.org/meadsteve/DiceApi)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/meadsteve/DiceApi/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/meadsteve/DiceApi/?branch=master)
 
 This is a semi joking api to simulate a pile of dice being thrown. The idea is fully inspired by/stolen from [deckofcardsapi.com](http://deckofcardsapi.com/). If you find any bugs or have feature requests, the project can be found on github at [DiceApi on GitHub](https://github.com/meadsteve/DiceApi/) or send me a tweet [@MeadSteve](https://twitter.com/MeadSteve).
 

@@ -3,6 +3,7 @@
 use MeadSteve\DiceApi\Counters\NullCounter;
 use MeadSteve\DiceApi\Dice\DiceGenerator;
 use MeadSteve\DiceApi\DiceApp;
+use MeadSteve\DiceApi\Renderer\RendererFactory;
 use Slim\Http\Body;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -18,6 +19,7 @@ class DiceAppTest extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_HOST'] = "test.com";
         $this->app = new DiceApp(
             new DiceGenerator(),
+            new RendererFactory(),
             new NullCounter()
         );
     }

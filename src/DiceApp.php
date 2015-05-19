@@ -17,12 +17,17 @@ class DiceApp extends App
 {
     private $diceGenerator;
     private $diceCounter;
+    private $rendererFactory;
 
-    public function __construct(DiceGenerator $diceGenerator, DiceCounter $diceCounter)
-    {
+    public function __construct(
+        DiceGenerator $diceGenerator,
+        RendererFactory $rendererFactory,
+        DiceCounter $diceCounter
+    ) {
         parent::__construct();
 
         $this->diceGenerator = $diceGenerator;
+        $this->rendererFactory = $rendererFactory;
         $this->diceCounter = $diceCounter;
 
         $this->get("/", [$this, 'index']);
@@ -86,8 +91,7 @@ class DiceApp extends App
         $acceptHeader = $request->getHeader('accept');
         $requestedContentType = $acceptHeader[0];
         try {
-            $rendererFactory = new RendererFactory();
-            $renderer = $rendererFactory->newForAcceptType($requestedContentType);
+            $renderer = $this->rendererFactory->newForAcceptType($requestedContentType);
             $responseWithOutput = $response->write($renderer->renderDice($dice))
                 ->withHeader("Content-Type", $renderer->contentType());
         } catch (UnknownRendererException $error) {

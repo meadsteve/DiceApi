@@ -4,11 +4,14 @@ use MeadSteve\DiceApi\Counters\NullCounter;
 use MeadSteve\DiceApi\Counters\RedisCounter;
 use MeadSteve\DiceApi\Dice\DiceGenerator;
 use MeadSteve\DiceApi\DiceApp;
+use MeadSteve\DiceApi\Renderer\RendererFactory;
 use Predis\Client;
 
 require __DIR__ . "/../vendor/autoload.php";
 
 $diceGenerator = new DiceGenerator();
+
+$rendererFactory = new RendererFactory();
 
 if (isset($_ENV['REDIS_URL'])) {
     $redis = new Client(
@@ -22,5 +25,5 @@ if (isset($_ENV['REDIS_URL'])) {
 } else {
     $diceCounter = new NullCounter();
 }
-$app = new DiceApp($diceGenerator, $diceCounter);
+$app = new DiceApp($diceGenerator, $rendererFactory, $diceCounter);
 $app->run();

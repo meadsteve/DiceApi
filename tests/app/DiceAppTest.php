@@ -9,20 +9,43 @@ use Slim\Http\Response;
 
 class DiceAppTest extends PHPUnit_Framework_TestCase
 {
-    public function testAppCanRolld6AndReturnJson()
+    private $app;
+
+    protected function setUp()
     {
-        $app = new DiceApp(
+        // This is a hack as the response builder uses this global directly
+        // sorry.
+        $_SERVER['HTTP_HOST'] = "test.com";
+        $this->app = new DiceApp(
             new DiceGenerator(),
             new NullCounter()
         );
+    }
 
+    public function testAppCanRolld6AndReturnJson()
+    {
         $request = $this->requestForPath("/json/d6");
-        $response = new Response();
-
-        // Invoke app
-        $responseOut = $app($request, $response);
-
+        $responseOut = $this->runApp($request);
         $this->assertEquals($responseOut->getStatusCode(), 200);
+        $this->assertEquals($responseOut->getHeader("Content-Type")[0], "application/json");
+    }
+
+    public function testAppCanRolld6AndReturnHtml()
+    {
+        $request = $this->requestForPath("/html/d6");
+        $responseOut = $this->runApp($request);
+        $this->assertEquals($responseOut->getStatusCode(), 200);
+        $this->assertEquals($responseOut->getHeader("Content-Type")[0], "text/html");
+    }
+
+    /**
+     * @param $request
+     * @return Psr\Http\Message\ResponseInterface
+     */
+    private function runApp($request)
+    {
+        $app = $this->app;
+        return $app($request, new Response());
     }
 
     private function requestForPath($path)

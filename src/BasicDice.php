@@ -28,6 +28,6 @@ class BasicDice implements Dice
 
     public function roll()
     {
-        return (int) rand(1, $this->size);
+        return mt_rand(1, $this->size);
     }
 }

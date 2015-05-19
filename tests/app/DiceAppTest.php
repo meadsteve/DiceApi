@@ -16,10 +16,9 @@ class DiceAppTest extends PHPUnit_Framework_TestCase
     {
         // This is a hack as the response builder uses this global directly
         // sorry.
-        $_SERVER['HTTP_HOST'] = "test.com";
         $this->app = new DiceApp(
             new DiceGenerator(),
-            new RendererFactory(),
+            new RendererFactory('http://test.com'),
             new NullCounter()
         );
     }

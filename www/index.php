@@ -11,7 +11,7 @@ require __DIR__ . "/../vendor/autoload.php";
 
 $diceGenerator = new DiceGenerator();
 
-$rendererFactory = new RendererFactory();
+$rendererFactory = new RendererFactory('http://' . $_SERVER['HTTP_HOST']);
 
 if (isset($_ENV['REDIS_URL'])) {
     $redis = new Client(

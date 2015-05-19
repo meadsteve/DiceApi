@@ -4,6 +4,13 @@ namespace MeadSteve\DiceApi\Renderer;
 
 class RendererFactory
 {
+    private $baseUrl;
+
+    public function __construct($baseUrl)
+    {
+        $this->baseUrl = $baseUrl;
+    }
+
     /**
      * @param string $acceptTypes
      * @return DiceRenderer
@@ -17,7 +24,7 @@ class RendererFactory
                     return new Json();
                     break;
                 case "text/html":
-                    return new Html('http://' . $_SERVER['HTTP_HOST']);
+                    return new Html($this->baseUrl);
                     break;
             }
         }

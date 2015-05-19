@@ -17,7 +17,8 @@
   "require-dev": {
     "heroku/heroku-buildpack-php": "v67",
     "phpspec/phpspec": "^2.2.0",
-    "squizlabs/php_codesniffer": "^2.3.2"
+    "squizlabs/php_codesniffer": "^2.3.2",
+    "phpunit/phpunit": "^4.6.6"
   },
 
   "autoload": {

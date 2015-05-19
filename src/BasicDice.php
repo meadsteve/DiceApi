@@ -18,14 +18,6 @@ class BasicDice implements Dice
         return $this->size;
     }
 
-    public function jsonSerialize()
-    {
-        return [
-            "value" => $this->roll(),
-            "size" => "d" . $this->size()
-        ];
-    }
-
     public function roll()
     {
         return mt_rand(1, $this->size);

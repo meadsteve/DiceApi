@@ -4,8 +4,35 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bd4ac19db0a83c01a6899c97ed7eb63c",
+    "hash": "06e88813b5ab604480bd42d974a0b379",
     "packages": [
+        {
+            "name": "container-interop/container-interop",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/container-interop/container-interop.git",
+                "reference": "fc08354828f8fd3245f77a66b9e23a6bca48297e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/container-interop/container-interop/zipball/fc08354828f8fd3245f77a66b9e23a6bca48297e",
+                "reference": "fc08354828f8fd3245f77a66b9e23a6bca48297e",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Interop\\Container\\": "src/Interop/Container/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
+            "time": "2014-12-30 15:22:37"
+        },
         {
             "name": "league/commonmark",
             "version": "0.8.0",
@@ -258,15 +285,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim.git",
-                "reference": "dcd3e807e672889e935e4569099c8cf9f4da830f"
+                "reference": "dbf4334d912d6ecab8bf993359ecad7a44298ddd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim/zipball/dcd3e807e672889e935e4569099c8cf9f4da830f",
-                "reference": "dcd3e807e672889e935e4569099c8cf9f4da830f",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/dbf4334d912d6ecab8bf993359ecad7a44298ddd",
+                "reference": "dbf4334d912d6ecab8bf993359ecad7a44298ddd",
                 "shasum": ""
             },
             "require": {
+                "container-interop/container-interop": "~1.1",
                 "nikic/fast-route": "~0.4",
                 "php": ">=5.4.0",
                 "pimple/pimple": "3.*",
@@ -315,7 +343,7 @@
                 "micro",
                 "router"
             ],
-            "time": "2015-05-15 20:39:38"
+            "time": "2015-05-19 10:09:59"
         }
     ],
     "packages-dev": [

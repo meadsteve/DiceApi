@@ -37,6 +37,14 @@ class DiceAppTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($responseOut->getHeader("Content-Type")[0], "text/html");
     }
 
+    public function testAppCanRolld20AndReturnHtml()
+    {
+        $request = $this->requestForPath("/html/d20");
+        $responseOut = $this->runApp($request);
+        $this->assertEquals($responseOut->getStatusCode(), 200);
+        $this->assertEquals($responseOut->getHeader("Content-Type")[0], "text/html");
+    }
+
     /**
      * @param $request
      * @return Psr\Http\Message\ResponseInterface

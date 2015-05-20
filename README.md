@@ -51,7 +51,7 @@ Response:
 By default the API assumes you want an html response. You have other options though:
 
 ### text/html
-This response type currently only supports d6 rolls.
+This response type currently only supports d6 and d20 rolls.
 
 ```GET http://roll.diceapi.com/d6 [Accept: text/html]```
 

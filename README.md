@@ -59,7 +59,7 @@ This response type currently only supports d6 and d20 rolls.
 
 Response:
 ```html
-<img src="http://roll.diceapi.com/images/poorly-drawn/d6.4.png" />
+<img src="http://roll.diceapi.com/images/poorly-drawn/d6/4.png" />
 ```
 ![dice with 4 spots](http://roll.diceapi.com/images/poorly-drawn/d6.4.png)
 

@@ -10,6 +10,7 @@ class DiceGenerator
     public function diceFromUrlString($urlString)
     {
         $parts = explode("/", $urlString);
+        $parts = array_filter($parts, function($part) {return $part !== "";});
         $diceSets = array_map([$this, 'getDiceForPart'], $parts);
         return $this->flattenDiceSets($diceSets);
     }
@@ -22,13 +23,11 @@ class DiceGenerator
     {
         $newDice = [];
         $data = $this->parseDiceString($part);
-        if ($data) {
-            if ((strlen($data["size"]) > 4) || ($data["size"] > 9000)) {
-                throw new UncreatableDiceException("Only dice with a power level less than 9000 can be created.");
-            }
-            for ($i = 0; $i < $data["count"]; $i++) {
-                $newDice[] = $this->newDiceOfSize($data["size"]);
-            }
+        if ((strlen($data["size"]) > 4) || ($data["size"] > 9000)) {
+            throw new UncreatableDiceException("Only dice with a power level less than 9000 can be created.");
+        }
+        for ($i = 0; $i < $data["count"]; $i++) {
+            $newDice[] = $this->newDiceOfSize($data["size"]);
         }
         return $newDice;
     }
@@ -60,14 +59,14 @@ class DiceGenerator
 
     /**
      * @param string $part
-     * @return array|null
+     * @return array
      */
     private function parseDiceString($part)
     {
         $data = [];
         $valid = preg_match("/(?P<count>[0-9]+)?d(?P<size>[0-9]+)/i", $part, $data);
         if (!$valid) {
-            return null;
+            throw new UncreatableDiceException("Problem creating dice from incorrectly formated data: " + $part);
         }
         if (!$data["count"]) {
             $data["count"] = 1;

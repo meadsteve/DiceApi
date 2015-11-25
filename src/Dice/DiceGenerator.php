@@ -10,7 +10,7 @@ class DiceGenerator
     public function diceFromUrlString($urlString)
     {
         $parts = explode("/", $urlString);
-        $parts = array_filter($parts, function($part) {return $part !== "";});
+        $parts = array_filter($parts, [$this, 'notBlank']);
         $diceSets = array_map([$this, 'getDiceForPart'], $parts);
         return $this->flattenDiceSets($diceSets);
     }
@@ -72,6 +72,10 @@ class DiceGenerator
             $data["count"] = 1;
         }
         return $data;
+    }
 
+    private function notBlank($string)
+    {
+        return $string !== "";
     }
 }

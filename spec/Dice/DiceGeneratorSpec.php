@@ -33,4 +33,9 @@ class DiceGeneratorSpec extends ObjectBehavior
     {
         $this->shouldThrow(Dice\UncreatableDiceException::class)->duringDiceFromUrlString("/d9001");
     }
+
+    function it_returns_a_special_singlepoint_dice_when_asked_for_a_d0()
+    {
+        $this->diceFromUrlString("/d0/")->shouldBeLike([new Dice\ZeropointDice()]);
+    }
 }

@@ -21,10 +21,18 @@ class DiceGenerator
                     $data["count"] = 1;
                 }
                 for ($i = 0; $i < $data["count"]; $i++) {
-                    $dice[] = new BasicDice($data["size"]);
+                    $dice[] = $this->newDice($data["size"]);
                 }
             }
         }
         return $dice;
+    }
+
+    private function newDice($size)
+    {
+        if ($size == 0) {
+            return new ZeropointDice();
+        }
+        return new BasicDice($size);
     }
 }

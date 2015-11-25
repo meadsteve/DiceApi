@@ -29,6 +29,11 @@ class DiceGeneratorSpec extends ObjectBehavior
         $this->diceFromUrlString("/2d4")->shouldBeLike([new BasicDice(4), new BasicDice(4)]);
     }
 
+    function it_returns_many_dice_and_single_dice_from_longer_urls()
+    {
+        $this->diceFromUrlString("/2d4/d6/2d20")->shouldBeLike([new BasicDice(4), new BasicDice(4), new BasicDice(6), new BasicDice(20), new BasicDice(20)]);
+    }
+
     function it_throws_an_exception_for_anything_over_a_d_9000()
     {
         $this->shouldThrow(Dice\UncreatableDiceException::class)->duringDiceFromUrlString("/d9001");

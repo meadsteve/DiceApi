@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: steve.brazier
- * Date: 25/11/2015
- * Time: 17:01
- */
 
 namespace MeadSteve\DiceApi\RequestHandler;
-
 
 use MeadSteve\DiceApi\Counters\DiceCounter;
 use MeadSteve\DiceApi\Dice;
@@ -31,8 +24,7 @@ class DiceRequestHandler
         DiceGenerator $diceGenerator,
         RendererFactory $rendererFactory,
         DiceCounter $diceCounter
-    )
-    {
+    ) {
         $this->diceGenerator = $diceGenerator;
         $this->rendererFactory = $rendererFactory;
         $this->diceCounter = $diceCounter;

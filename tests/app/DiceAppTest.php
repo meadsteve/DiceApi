@@ -4,6 +4,7 @@ use MeadSteve\DiceApi\Counters\NullCounter;
 use MeadSteve\DiceApi\Dice\DiceGenerator;
 use MeadSteve\DiceApi\DiceApp;
 use MeadSteve\DiceApi\Renderer\RendererFactory;
+use MeadSteve\DiceApi\RequestHandler\DiceRequestHandler;
 use Slim\Http\Body;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -12,12 +13,16 @@ class DiceAppTest extends PHPUnit_Framework_TestCase
 {
     private $app;
 
+
     protected function setUp()
     {
+        $diceGenerator = new DiceGenerator();
+        $rendererFactory = new RendererFactory('http://test.com');
+        $nullCounter = new NullCounter();
+        $diceRequestHandler = new DiceRequestHandler($diceGenerator, $rendererFactory, $nullCounter);
         $this->app = new DiceApp(
-            new DiceGenerator(),
-            new RendererFactory('http://test.com'),
-            new NullCounter()
+            $diceRequestHandler,
+            $nullCounter
         );
     }
 

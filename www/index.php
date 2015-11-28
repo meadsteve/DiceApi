@@ -5,6 +5,7 @@ use MeadSteve\DiceApi\Counters\RedisCounter;
 use MeadSteve\DiceApi\Dice\DiceGenerator;
 use MeadSteve\DiceApi\DiceApp;
 use MeadSteve\DiceApi\Renderer\RendererFactory;
+use MeadSteve\DiceApi\RequestHandler\DiceRequestHandler;
 use Predis\Client;
 
 require __DIR__ . "/../vendor/autoload.php";
@@ -25,5 +26,6 @@ if (isset($_ENV['REDIS_URL'])) {
 } else {
     $diceCounter = new NullCounter();
 }
-$app = new DiceApp($diceGenerator, $rendererFactory, $diceCounter);
+$diceRequestHandler = new DiceRequestHandler($diceGenerator, $rendererFactory, $diceCounter);
+$app = new DiceApp($diceRequestHandler, $diceCounter);
 $app->run();

@@ -3,37 +3,40 @@ namespace MeadSteve\DiceApi;
 
 use League\CommonMark\CommonMarkConverter;
 use MeadSteve\DiceApi\Counters\DiceCounter;
-use MeadSteve\DiceApi\Dice\DiceGenerator;
 use MeadSteve\DiceApi\RequestHandler\DiceRequestHandler;
-use MeadSteve\DiceApi\Dice\UncreatableDiceException;
-use MeadSteve\DiceApi\DiceDecorators\TotallyLegit;
-use MeadSteve\DiceApi\Renderer\RendererFactory;
-use MeadSteve\DiceApi\Renderer\UnknownRendererException;
-use MeadSteve\DiceApi\Renderer\UnrenderableDiceException;
 use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 class DiceApp extends App
 {
-    public function __construct(
-        DiceGenerator $diceGenerator,
-        RendererFactory $rendererFactory,
-        DiceCounter $diceCounter
-    ) {
+    private $diceCounter;
+    private $diceRequestHandler;
+
+    public function __construct(DiceRequestHandler $diceRequestHandler, DiceCounter $diceCounter)
+    {
         parent::__construct();
 
-        $this->diceRequestHandler = new DiceRequestHandler($diceGenerator, $rendererFactory, $diceCounter);
+        $this->diceRequestHandler = $diceRequestHandler;
+        $this->diceCounter = $diceCounter;
 
         $this->get("/", [$this, 'index']);
         $this->get("/dice-stats", [$this, 'diceStats']);
         $this->get("{dice:(?:/[0-9]*[dD][0-9]+)+/?}", [$this->diceRequestHandler, 'getDice']);
 
         $this->get("/html{dice:(?:/[0-9]*[dD][0-9]+)+/?}", function (Request $request, $response, $args) {
-            return $this->diceRequestHandler->getDice($request->withHeader('accept', 'text/html'), $response, $args);
+            return $this->diceRequestHandler->getDice(
+                $request->withHeader('accept', 'text/html'),
+                $response,
+                $args
+            );
         });
         $this->get("/json{dice:(?:/[0-9]*[dD][0-9]+)+/?}", function (Request $request, $response, $args) {
-            return $this->diceRequestHandler->getDice($request->withHeader('accept', 'application/json'), $response, $args);
+            return $this->diceRequestHandler->getDice(
+                $request->withHeader('accept', 'application/json'),
+                $response,
+                $args
+            );
         });
     }
 

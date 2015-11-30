@@ -20,24 +20,7 @@ class DiceApp extends App
         $this->diceRequestHandler = $diceRequestHandler;
         $this->diceCounter = $diceCounter;
 
-        $this->get("/", [$this, 'index']);
-        $this->get("/dice-stats", [$this, 'diceStats']);
-        $this->get("{dice:(?:/[0-9]*[dD][0-9]+)+/?}", [$this->diceRequestHandler, 'getDice']);
-
-        $this->get("/html{dice:(?:/[0-9]*[dD][0-9]+)+/?}", function (Request $request, $response, $args) {
-            return $this->diceRequestHandler->getDice(
-                $request->withHeader('accept', 'text/html'),
-                $response,
-                $args
-            );
-        });
-        $this->get("/json{dice:(?:/[0-9]*[dD][0-9]+)+/?}", function (Request $request, $response, $args) {
-            return $this->diceRequestHandler->getDice(
-                $request->withHeader('accept', 'application/json'),
-                $response,
-                $args
-            );
-        });
+        $this->setupRoutes();
     }
 
     public function index(Request $request, Response $response)
@@ -62,5 +45,27 @@ class DiceApp extends App
         $countData = $this->diceCounter->getCounts();
         return $response->write(json_encode($countData))
             ->withHeader("Content-Type", "application/json");
+    }
+
+    private function setupRoutes()
+    {
+        $this->get("/", [$this, 'index']);
+        $this->get("/dice-stats", [$this, 'diceStats']);
+        $this->get("{dice:(?:/[0-9]*[dD][0-9]+)+/?}", [$this->diceRequestHandler, 'getDice']);
+
+        $this->get("/html{dice:(?:/[0-9]*[dD][0-9]+)+/?}", function (Request $request, $response, $args) {
+            return $this->diceRequestHandler->getDice(
+                $request->withHeader('accept', 'text/html'),
+                $response,
+                $args
+            );
+        });
+        $this->get("/json{dice:(?:/[0-9]*[dD][0-9]+)+/?}", function (Request $request, $response, $args) {
+            return $this->diceRequestHandler->getDice(
+                $request->withHeader('accept', 'application/json'),
+                $response,
+                $args
+            );
+        });
     }
 }

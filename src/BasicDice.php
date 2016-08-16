@@ -20,6 +20,10 @@ class BasicDice implements Dice
 
     public function roll()
     {
-        return mt_rand(1, $this->size);
+        if (! function_exists('random_int')) {
+            return mt_rand(1, $this->size);
+        }
+
+        return random_int(1, $this->size);
     }
 }

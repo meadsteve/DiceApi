@@ -49,23 +49,31 @@ class DiceApp extends App
 
     private function setupRoutes()
     {
+        $diceRequestHandler = $this->diceRequestHandler;
+
         $this->get("/", [$this, 'index']);
         $this->get("/dice-stats", [$this, 'diceStats']);
-        $this->get("{dice:(?:/[0-9]*[dD][0-9]+)+/?}", [$this->diceRequestHandler, 'getDice']);
+        $this->get("{dice:(?:/[0-9]*[dD][0-9]+)+/?}", [$diceRequestHandler, 'getDice']);
 
-        $this->get("/html{dice:(?:/[0-9]*[dD][0-9]+)+/?}", function (Request $request, $response, $args) {
-            return $this->diceRequestHandler->getDice(
-                $request->withHeader('accept', 'text/html'),
-                $response,
-                $args
-            );
-        });
-        $this->get("/json{dice:(?:/[0-9]*[dD][0-9]+)+/?}", function (Request $request, $response, $args) {
-            return $this->diceRequestHandler->getDice(
-                $request->withHeader('accept', 'application/json'),
-                $response,
-                $args
-            );
-        });
+        $this->get(
+            "/html{dice:(?:/[0-9]*[dD][0-9]+)+/?}",
+            function (Request $request, $response, $args) use ($diceRequestHandler) {
+                return $diceRequestHandler->getDice(
+                    $request->withHeader('accept', 'text/html'),
+                    $response,
+                    $args
+                );
+            }
+        );
+        $this->get(
+            "/json{dice:(?:/[0-9]*[dD][0-9]+)+/?}",
+            function (Request $request, $response, $args) use ($diceRequestHandler) {
+                return $diceRequestHandler->getDice(
+                    $request->withHeader('accept', 'application/json'),
+                    $response,
+                    $args
+                );
+            }
+        );
     }
 }

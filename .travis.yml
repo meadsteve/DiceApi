@@ -1,7 +1,7 @@
 language: php
 php:
-  - hhvm
   - 7.0
+  - 7.1
 
 install: composer install
 script:

@@ -2,14 +2,24 @@
 
 namespace MeadSteve\DiceApi;
 
-use MeadSteve\DiceApi\BasicDice;
-use MeadSteve\DiceApi\Dice;
-use MeadSteve\DiceApi\Dice\SteveDice;
+use MeadSteve\DiceApi\Dice\Factories\DiceFactory;
+use MeadSteve\DiceApi\Dice\Factories\NumericDiceFactory;
+use MeadSteve\DiceApi\Dice\Factories\SpecialDiceFactory;
 use MeadSteve\DiceApi\Dice\UncreatableDiceException;
-use MeadSteve\DiceApi\Dice\ZeropointDice;
 
 class UrlDiceGenerator
 {
+    /**
+     * @var DiceFactory
+     */
+    private $diceFactories = [];
+
+    public function __construct()
+    {
+        $this->diceFactories[] = new NumericDiceFactory();
+        $this->diceFactories[] = new SpecialDiceFactory();
+    }
+
     public function diceFromUrlString($urlString)
     {
         $parts = explode("/", $urlString);
@@ -20,36 +30,22 @@ class UrlDiceGenerator
 
     /**
      * @param string $part
+     *
+     * @throws UncreatableDiceException
+     *
      * @return Dice[]
      */
     private function getDiceForPart($part)
     {
         $data = $this->parseDiceString($part);
-        $type = $data["type"];
-        $diceCount = $data["count"];
 
-        if (is_numeric($type)) {
-            return $this->buildBasicNumericDice($type, $diceCount);
+        foreach ($this->diceFactories as $factory) {
+            if ($factory->handlesType($data["type"])) {
+                return $factory->buildDice($data["type"], $data["count"]);
+            }
         }
 
-        switch (strtolower($type)) {
-            case "steve":
-                return $this->buildSteveDice($type, $diceCount);
-        }
-
-        throw new UncreatableDiceException("No idea how to make a d{$type}");
-    }
-
-    /**
-     * @param $size
-     * @return Dice
-     */
-    private function newDiceOfSize($size)
-    {
-        if ($size == 0) {
-            return new ZeropointDice();
-        }
-        return new BasicDice($size);
+        throw new UncreatableDiceException("No idea how to make a d{$data['type']}");
     }
 
     /**
@@ -74,7 +70,7 @@ class UrlDiceGenerator
         $data = [];
         $valid = preg_match("/(?P<count>[0-9]+)?d(?P<type>[^\/]+)/i", $part, $data);
         if (!$valid) {
-            throw new UncreatableDiceException("Problem creating dice from incorrectly formated data: " + $part);
+            throw new UncreatableDiceException("Problem creating dice from incorrectly formated data: " . $part);
         }
         if (!$data["count"]) {
             $data["count"] = 1;
@@ -85,26 +81,5 @@ class UrlDiceGenerator
     private function notBlank($string)
     {
         return $string !== "";
-    }
-
-    private function buildBasicNumericDice($size, $diceCount) : array
-    {
-        $newDice = [];
-        if ((strlen($size) > 4) || ($size > 9000)) {
-            throw new UncreatableDiceException("Only dice with a power level less than 9000 can be created.");
-        }
-        for ($i = 0; $i < $diceCount; $i++) {
-            $newDice[] = $this->newDiceOfSize($size);
-        }
-        return $newDice;
-    }
-
-    private function buildSteveDice($_type, $diceCount)
-    {
-        $newDice = [];
-        for ($i = 0; $i < $diceCount; $i++) {
-            $newDice[] = new SteveDice();
-        }
-        return $newDice;
     }
 }

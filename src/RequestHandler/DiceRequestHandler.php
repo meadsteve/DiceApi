@@ -4,7 +4,7 @@ namespace MeadSteve\DiceApi\RequestHandler;
 
 use MeadSteve\DiceApi\Counters\DiceCounter;
 use MeadSteve\DiceApi\Dice;
-use MeadSteve\DiceApi\Dice\DiceGenerator;
+use MeadSteve\DiceApi\UrlDiceGenerator;
 use MeadSteve\DiceApi\Dice\UncreatableDiceException;
 use MeadSteve\DiceApi\DiceDecorators\TotallyLegit;
 use MeadSteve\DiceApi\Renderer\RendererFactory;
@@ -21,7 +21,7 @@ class DiceRequestHandler
     private $rendererFactory;
 
     public function __construct(
-        DiceGenerator $diceGenerator,
+        UrlDiceGenerator $diceGenerator,
         RendererFactory $rendererFactory,
         DiceCounter $diceCounter
     ) {

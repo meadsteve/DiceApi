@@ -1,17 +1,17 @@
 <?php
 
-namespace spec\MeadSteve\DiceApi\Dice;
+namespace spec\MeadSteve\DiceApi;
 
 use MeadSteve\DiceApi\BasicDice;
 use MeadSteve\DiceApi\Dice;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class DiceGeneratorSpec extends ObjectBehavior
+class UrlDiceGeneratorSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('MeadSteve\DiceApi\Dice\DiceGenerator');
+        $this->shouldHaveType(\MeadSteve\DiceApi\UrlDiceGenerator::class);
     }
 
     function it_returns_a_single_dice_from_a_url()

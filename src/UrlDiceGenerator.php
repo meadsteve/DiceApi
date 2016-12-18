@@ -1,11 +1,14 @@
 <?php
 
-namespace MeadSteve\DiceApi\Dice;
+namespace MeadSteve\DiceApi;
 
 use MeadSteve\DiceApi\BasicDice;
 use MeadSteve\DiceApi\Dice;
+use MeadSteve\DiceApi\Dice\SteveDice;
+use MeadSteve\DiceApi\Dice\UncreatableDiceException;
+use MeadSteve\DiceApi\Dice\ZeropointDice;
 
-class DiceGenerator
+class UrlDiceGenerator
 {
     public function diceFromUrlString($urlString)
     {

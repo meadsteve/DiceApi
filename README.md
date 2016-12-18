@@ -13,7 +13,7 @@ Response:
 {
   "success":true,
   "dice":[
-    {"value":2,"size":"d6"}
+    {"value":2,"name":"d6"}
   ]
 }
 ```
@@ -27,8 +27,8 @@ Response:
 {
   "success":true,
   "dice":[
-    {"value":2,"size":"d6"},
-    {"value":18,"size":"d20"}
+    {"value":2,"name":"d6"},
+    {"value":18,"name":"d20"}
   ]
 }
 ```
@@ -41,9 +41,9 @@ Response:
 {
   "success":true,
   "dice":[
-    {"value":2,"size":"d6"},
-    {"value":4,"size":"d6"},
-    {"value":3,"size":"d4"}
+    {"value":2,"name":"d6"},
+    {"value":4,"name":"d6"},
+    {"value":3,"name":"d4"}
   ]
 }
 ```

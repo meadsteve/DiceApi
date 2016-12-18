@@ -6,9 +6,9 @@ use MeadSteve\DiceApi\Dice;
 
 class ZeropointDice implements Dice
 {
-    public function size()
+    public function name()
     {
-        return 0;
+        return "d0";
     }
 
     public function roll()

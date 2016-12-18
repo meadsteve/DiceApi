@@ -24,7 +24,7 @@ class RedisCounter implements DiceCounter
     {
         try {
             foreach ($diceCollection as $dice) {
-                $this->redisClient->hincrby("dice-count", (string) $dice->size(), 1);
+                $this->redisClient->hincrby("dice-count", (string) $dice->name(), 1);
             }
         } catch (ConnectionException $connectError) {
             return false;

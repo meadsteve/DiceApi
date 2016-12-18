@@ -14,9 +14,9 @@ class TotallyLegit implements Dice
         $this->dice = $dice;
         $this->alwaysRoll = (int) $alwaysRoll;
     }
-    public function size()
+    public function name()
     {
-        return $this->dice->size();
+        return $this->dice->name();
     }
 
     public function roll()

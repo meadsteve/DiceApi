@@ -28,8 +28,9 @@ class TotallyLegitSpec extends ObjectBehavior
 
     function it_returns_the_size_of_the_base_dice(Dice $dice)
     {
-        $size = 6;
-        $dice->size()->willReturn($size);
-        $this->size()->shouldEqual($size);
+        $name = "d6";
+        $dice->name()->willReturn($name);
+
+        $this->name()->shouldEqual($name);
     }
 }

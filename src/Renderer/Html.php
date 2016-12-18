@@ -29,12 +29,12 @@ class Html implements DiceRenderer
 
     public function htmlForSingleDice(Dice $dice)
     {
-        $size = $dice->size();
-        if ($size != 6 && $size != 20) {
+        $name = $dice->name();
+        if ($name != "d6" && $name != "d20") {
             throw new UnrenderableDiceException("Currently only d6 and d20 can be rendered as html");
         }
         $roll = $dice->roll();
-        $url = "{$this->urlRoot}/images/poorly-drawn/d{$size}/{$roll}.png";
+        $url = "{$this->urlRoot}/images/poorly-drawn/{$name}/{$roll}.png";
         return '<img src="' . $url . '" />';
     }
 }

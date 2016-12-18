@@ -13,9 +13,9 @@ class ZeropointDiceSpec extends ObjectBehavior
         $this->shouldHaveType('MeadSteve\DiceApi\Dice');
     }
 
-    function it_has_a_size_of_zero()
+    function it_has_a_name_of_d0()
     {
-        $this->size()->shouldBe(0);
+        $this->name()->shouldBe("d0");
     }
 
     function it_rolls_a_singularity()

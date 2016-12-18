@@ -8,14 +8,14 @@ class BasicDice implements Dice
 
     private $size;
 
-    public function __construct($size)
+    public function __construct(int $size)
     {
         $this->size = $size;
     }
 
-    public function size()
+    public function name()
     {
-        return $this->size;
+        return "d{$this->size}";
     }
 
     public function roll()

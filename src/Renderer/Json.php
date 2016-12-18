@@ -29,7 +29,7 @@ class Json implements DiceRenderer
         return array_map(function (Dice $dice) {
             return [
                 "value" => $dice->roll(),
-                "size" => "d" . $dice->size()
+                "type"  => $dice->name()
             ];
         }, $diceCollection);
     }

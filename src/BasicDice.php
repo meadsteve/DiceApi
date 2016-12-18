@@ -13,7 +13,7 @@ class BasicDice implements Dice
         $this->size = $size;
     }
 
-    public function name()
+    public function name() : string
     {
         return "d{$this->size}";
     }

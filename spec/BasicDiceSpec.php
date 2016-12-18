@@ -15,8 +15,8 @@ class BasicDiceSpec extends ObjectBehavior
     }
     function it_is_initializable()
     {
-        $this->shouldHaveType('MeadSteve\DiceApi\BasicDice');
-        $this->shouldHaveType('MeadSteve\DiceApi\Dice');
+        $this->shouldHaveType(\MeadSteve\DiceApi\BasicDice::class);
+        $this->shouldHaveType(\MeadSteve\DiceApi\Dice::class);
     }
 
     function it_rolls_an_integer()

@@ -6,7 +6,7 @@ use MeadSteve\DiceApi\Dice;
 
 class ZeropointDice implements Dice
 {
-    public function name()
+    public function name() : string
     {
         return "d0";
     }

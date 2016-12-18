@@ -13,6 +13,8 @@ class DiceApp extends App
     private $diceCounter;
     private $diceRequestHandler;
 
+    const DICE_PATH_REGEX = "{dice:(?:/[0-9]*[dD][^\/]+)+/?}";
+
     public function __construct(DiceRequestHandler $diceRequestHandler, DiceCounter $diceCounter)
     {
         parent::__construct();
@@ -53,10 +55,10 @@ class DiceApp extends App
 
         $this->get("/", [$this, 'index']);
         $this->get("/dice-stats", [$this, 'diceStats']);
-        $this->get("{dice:(?:/[0-9]*[dD][0-9]+)+/?}", [$diceRequestHandler, 'getDice']);
+        $this->get(self::DICE_PATH_REGEX, [$diceRequestHandler, 'getDice']);
 
         $this->get(
-            "/html{dice:(?:/[0-9]*[dD][0-9]+)+/?}",
+            "/html" . self::DICE_PATH_REGEX,
             function (Request $request, $response, $args) use ($diceRequestHandler) {
                 return $diceRequestHandler->getDice(
                     $request->withHeader('accept', 'text/html'),
@@ -66,7 +68,7 @@ class DiceApp extends App
             }
         );
         $this->get(
-            "/json{dice:(?:/[0-9]*[dD][0-9]+)+/?}",
+            "/json" . self::DICE_PATH_REGEX,
             function (Request $request, $response, $args) use ($diceRequestHandler) {
                 return $diceRequestHandler->getDice(
                     $request->withHeader('accept', 'application/json'),

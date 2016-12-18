@@ -43,4 +43,9 @@ class DiceGeneratorSpec extends ObjectBehavior
     {
         $this->diceFromUrlString("/d0/")->shouldBeLike([new Dice\ZeropointDice()]);
     }
+
+    function it_returns_a_steve_dice()
+    {
+        $this->diceFromUrlString("/dSTeVe/")->shouldBeLike([new Dice\SteveDice()]);
+    }
 }

@@ -21,15 +21,20 @@ class DiceGenerator
      */
     private function getDiceForPart($part)
     {
-        $newDice = [];
         $data = $this->parseDiceString($part);
-        if ((strlen($data["size"]) > 4) || ($data["size"] > 9000)) {
-            throw new UncreatableDiceException("Only dice with a power level less than 9000 can be created.");
+        $type = $data["type"];
+        $diceCount = $data["count"];
+
+        if (is_numeric($type)) {
+            return $this->buildBasicNumericDice($type, $diceCount);
         }
-        for ($i = 0; $i < $data["count"]; $i++) {
-            $newDice[] = $this->newDiceOfSize($data["size"]);
+
+        switch (strtolower($type)) {
+            case "steve":
+                return $this->buildSteveDice($type, $diceCount);
         }
-        return $newDice;
+
+        throw new UncreatableDiceException("No idea how to make a d{$type}");
     }
 
     /**
@@ -64,7 +69,7 @@ class DiceGenerator
     private function parseDiceString($part)
     {
         $data = [];
-        $valid = preg_match("/(?P<count>[0-9]+)?d(?P<size>[0-9]+)/i", $part, $data);
+        $valid = preg_match("/(?P<count>[0-9]+)?d(?P<type>[^\/]+)/i", $part, $data);
         if (!$valid) {
             throw new UncreatableDiceException("Problem creating dice from incorrectly formated data: " + $part);
         }
@@ -77,5 +82,26 @@ class DiceGenerator
     private function notBlank($string)
     {
         return $string !== "";
+    }
+
+    private function buildBasicNumericDice($size, $diceCount) : array
+    {
+        $newDice = [];
+        if ((strlen($size) > 4) || ($size > 9000)) {
+            throw new UncreatableDiceException("Only dice with a power level less than 9000 can be created.");
+        }
+        for ($i = 0; $i < $diceCount; $i++) {
+            $newDice[] = $this->newDiceOfSize($size);
+        }
+        return $newDice;
+    }
+
+    private function buildSteveDice($_type, $diceCount)
+    {
+        $newDice = [];
+        for ($i = 0; $i < $diceCount; $i++) {
+            $newDice[] = new SteveDice();
+        }
+        return $newDice;
     }
 }

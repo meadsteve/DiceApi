@@ -18,7 +18,13 @@ class SpecialDiceFactory implements DiceFactory
     public function __construct()
     {
         $this->diceTypeCallbacks = [
-            'steve' => [$this, 'buildSteveDice']
+            'steve' => function ($_type, $diceCount) {
+                $newDice = [];
+                for ($i = 0; $i < $diceCount; $i++) {
+                    $newDice[] = new SteveDice();
+                }
+                return $newDice;
+            }
         ];
     }
 
@@ -40,15 +46,6 @@ class SpecialDiceFactory implements DiceFactory
     {
         $function = $this->diceTypeCallbacks[$this->normaliseType($type)];
         return $function($type, $number);
-    }
-
-    private function buildSteveDice($_type, $diceCount)
-    {
-        $newDice = [];
-        for ($i = 0; $i < $diceCount; $i++) {
-            $newDice[] = new SteveDice();
-        }
-        return $newDice;
     }
 
     private function normaliseType(string $type): string

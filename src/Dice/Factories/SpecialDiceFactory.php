@@ -2,7 +2,7 @@
 
 namespace MeadSteve\DiceApi\Dice\Factories;
 
-use MeadSteve\DiceApi\BasicDice;
+use MeadSteve\DiceApi\Dice\BasicDice;
 use MeadSteve\DiceApi\Dice;
 use MeadSteve\DiceApi\Dice\SteveDice;
 use MeadSteve\DiceApi\Dice\UncreatableDiceException;

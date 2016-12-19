@@ -2,7 +2,7 @@
 
 namespace spec\MeadSteve\DiceApi;
 
-use MeadSteve\DiceApi\BasicDice;
+use MeadSteve\DiceApi\Dice\BasicDice;
 use MeadSteve\DiceApi\Dice;
 use MeadSteve\DiceApi\Dice\Factories\DiceFactory;
 use PhpSpec\ObjectBehavior;

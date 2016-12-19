@@ -1,7 +1,9 @@
 <?php
 
 
-namespace MeadSteve\DiceApi;
+namespace MeadSteve\DiceApi\Dice;
+
+use MeadSteve\DiceApi\Dice;
 
 class BasicDice implements Dice
 {

@@ -2,7 +2,7 @@
 
 namespace spec\MeadSteve\DiceApi\Dice\Factories;
 
-use MeadSteve\DiceApi\BasicDice;
+use MeadSteve\DiceApi\Dice\BasicDice;
 use MeadSteve\DiceApi\Dice;
 use MeadSteve\DiceApi\Dice\Factories\DiceFactory;
 use MeadSteve\DiceApi\Dice\Factories\NumericDiceFactory;

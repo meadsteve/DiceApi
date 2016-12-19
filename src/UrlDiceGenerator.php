@@ -3,6 +3,7 @@
 namespace MeadSteve\DiceApi;
 
 use MeadSteve\DiceApi\Dice\Factories\DiceFactory;
+use MeadSteve\DiceApi\Dice\Factories\DiceFactoryCollection;
 use MeadSteve\DiceApi\Dice\Factories\NumericDiceFactory;
 use MeadSteve\DiceApi\Dice\Factories\SpecialDiceFactory;
 use MeadSteve\DiceApi\Dice\UncreatableDiceException;
@@ -12,12 +13,11 @@ class UrlDiceGenerator
     /**
      * @var DiceFactory
      */
-    private $diceFactories = [];
+    private $diceFactory;
 
-    public function __construct()
+    public function __construct(DiceFactory $diceFactory)
     {
-        $this->diceFactories[] = new NumericDiceFactory();
-        $this->diceFactories[] = new SpecialDiceFactory();
+        $this->diceFactory = $diceFactory;
     }
 
     public function diceFromUrlString($urlString)
@@ -38,14 +38,7 @@ class UrlDiceGenerator
     private function getDiceForPart($part)
     {
         $data = $this->parseDiceString($part);
-
-        foreach ($this->diceFactories as $factory) {
-            if ($factory->handlesType($data["type"])) {
-                return $factory->buildDice($data["type"], $data["count"]);
-            }
-        }
-
-        throw new UncreatableDiceException("No idea how to make a d{$data['type']}");
+        return $this->diceFactory->buildDice($data["type"], $data["count"]);
     }
 
     /**

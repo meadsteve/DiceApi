@@ -2,6 +2,9 @@
 
 use MeadSteve\DiceApi\Counters\NullCounter;
 use MeadSteve\DiceApi\Counters\RedisCounter;
+use MeadSteve\DiceApi\Dice\Factories\DiceFactoryCollection;
+use MeadSteve\DiceApi\Dice\Factories\NumericDiceFactory;
+use MeadSteve\DiceApi\Dice\Factories\SpecialDiceFactory;
 use MeadSteve\DiceApi\UrlDiceGenerator;
 use MeadSteve\DiceApi\DiceApp;
 use MeadSteve\DiceApi\Renderer\RendererFactory;
@@ -10,7 +13,12 @@ use Predis\Client;
 
 require __DIR__ . "/../vendor/autoload.php";
 
-$diceGenerator = new UrlDiceGenerator();
+$diceGenerator = new UrlDiceGenerator(
+    new DiceFactoryCollection([
+        new NumericDiceFactory(),
+        new SpecialDiceFactory()
+    ])
+);
 
 $rendererFactory = new RendererFactory('http://' . $_SERVER['HTTP_HOST']);
 

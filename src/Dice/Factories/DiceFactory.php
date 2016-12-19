@@ -10,6 +10,9 @@ interface DiceFactory
     /**
      * @param string $type
      * @param int $number
+     *
+     * @throws Dice\UncreatableDiceException
+     *
      * @return Dice[]
      */
     public function buildDice(string $type, int $number): array;

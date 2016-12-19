@@ -1,6 +1,9 @@
 <?php
 
 use MeadSteve\DiceApi\Counters\NullCounter;
+use MeadSteve\DiceApi\Dice\Factories\DiceFactoryCollection;
+use MeadSteve\DiceApi\Dice\Factories\NumericDiceFactory;
+use MeadSteve\DiceApi\Dice\Factories\SpecialDiceFactory;
 use MeadSteve\DiceApi\UrlDiceGenerator;
 use MeadSteve\DiceApi\DiceApp;
 use MeadSteve\DiceApi\Renderer\RendererFactory;
@@ -16,7 +19,12 @@ class DiceAppTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $diceGenerator = new UrlDiceGenerator();
+        $diceGenerator = new UrlDiceGenerator(
+            new DiceFactoryCollection([
+                new NumericDiceFactory(),
+                new SpecialDiceFactory()
+            ])
+        );
         $rendererFactory = new RendererFactory('http://test.com');
         $nullCounter = new NullCounter();
         $diceRequestHandler = new DiceRequestHandler($diceGenerator, $rendererFactory, $nullCounter);

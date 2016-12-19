@@ -3,9 +3,6 @@
 namespace MeadSteve\DiceApi;
 
 use MeadSteve\DiceApi\Dice\Factories\DiceFactory;
-use MeadSteve\DiceApi\Dice\Factories\DiceFactoryCollection;
-use MeadSteve\DiceApi\Dice\Factories\NumericDiceFactory;
-use MeadSteve\DiceApi\Dice\Factories\SpecialDiceFactory;
 use MeadSteve\DiceApi\Dice\UncreatableDiceException;
 
 class UrlDiceGenerator

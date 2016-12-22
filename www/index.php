@@ -19,14 +19,14 @@ require __DIR__ . "/../vendor/autoload.php";
 $diceGenerator = new UrlDiceGenerator(
     new DiceFactoryCollection([
         new NumericDiceFactory(),
-        new SpecialDiceFactory(),
-        new Plain()
+        new SpecialDiceFactory()
     ])
 );
 
 $rendererCollection = new RendererCollection([
     new Json(),
-    new Html('http://' . $_SERVER['HTTP_HOST'])
+    new Html('http://' . $_SERVER['HTTP_HOST']),
+    new Plain()
 ]);
 
 if (isset($_ENV['REDIS_URL'])) {

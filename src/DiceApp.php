@@ -58,16 +58,22 @@ class DiceApp extends App
         $this->get(self::DICE_PATH_REGEX, [$diceRequestHandler, 'getDice']);
 
         foreach ($this->diceRequestHandler->contentTypesForPaths() as $path => $contentType) {
-            $this->get(
-                "/{$path}" . self::DICE_PATH_REGEX,
-                function (Request $request, $response, $args) use ($diceRequestHandler, $contentType) {
-                    return $diceRequestHandler->getDice(
-                        $request->withHeader('accept', $contentType),
-                        $response,
-                        $args
-                    );
-                }
-            );
+            $this->addCustomRoute($path, $contentType);
         }
+    }
+
+    private function addCustomRoute($path, $contentType)
+    {
+        $diceRequestHandler = $this->diceRequestHandler;
+        $this->get(
+            "/{$path}" . self::DICE_PATH_REGEX,
+            function (Request $request, $response, $args) use ($diceRequestHandler, $contentType) {
+                return $diceRequestHandler->getDice(
+                    $request->withHeader('accept', $contentType),
+                    $response,
+                    $args
+                );
+            }
+        );
     }
 }

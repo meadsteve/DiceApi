@@ -7,7 +7,7 @@ use MeadSteve\DiceApi\Dice;
 use MeadSteve\DiceApi\UrlDiceGenerator;
 use MeadSteve\DiceApi\Dice\UncreatableDiceException;
 use MeadSteve\DiceApi\DiceDecorators\TotallyLegit;
-use MeadSteve\DiceApi\Renderer\RendererFactory;
+use MeadSteve\DiceApi\Renderer\RendererCollection;
 use MeadSteve\DiceApi\Renderer\UnknownRendererException;
 use MeadSteve\DiceApi\Renderer\UnrenderableDiceException;
 use Slim\Http\Request;
@@ -18,15 +18,15 @@ class DiceRequestHandler
 
     private $diceGenerator;
     private $diceCounter;
-    private $rendererFactory;
+    private $rendererCollection;
 
     public function __construct(
         UrlDiceGenerator $diceGenerator,
-        RendererFactory $rendererFactory,
+        RendererCollection $rendererCollection,
         DiceCounter $diceCounter
     ) {
         $this->diceGenerator = $diceGenerator;
-        $this->rendererFactory = $rendererFactory;
+        $this->rendererCollection = $rendererCollection;
         $this->diceCounter = $diceCounter;
     }
 
@@ -50,12 +50,22 @@ class DiceRequestHandler
         return $diceResponse;
     }
 
+    /**
+     * Returns key value pairs mapping a url prefix to a handled content type
+     * so ["json" => "application/json", "etc" => "..."]
+     * @return string[]
+     */
+    public function contentTypesForPaths() : array
+    {
+        return $this->rendererCollection->contentTypesForPaths();
+    }
+
     private function writeAppropriateFormatResponse(Request $request, Response $response, $dice)
     {
         $acceptHeader = $request->getHeader('accept');
         $requestedContentType = $acceptHeader[0];
         try {
-            $renderer = $this->rendererFactory->newForAcceptType($requestedContentType);
+            $renderer = $this->rendererCollection->newForAcceptType($requestedContentType);
             $responseWithOutput = $response->write($renderer->renderDice($dice))
                 ->withHeader("Content-Type", $renderer->contentType());
         } catch (UnknownRendererException $error) {

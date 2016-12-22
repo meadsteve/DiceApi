@@ -22,9 +22,14 @@ class Html implements DiceRenderer
     /**
      * @return string
      */
-    public function contentType()
+    public function contentType() : string
     {
         return "text/html";
+    }
+
+    public function urlPrefix(): string
+    {
+        return "html";
     }
 
     public function htmlForSingleDice(Dice $dice)

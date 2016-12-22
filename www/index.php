@@ -5,9 +5,11 @@ use MeadSteve\DiceApi\Counters\RedisCounter;
 use MeadSteve\DiceApi\Dice\Factories\DiceFactoryCollection;
 use MeadSteve\DiceApi\Dice\Factories\NumericDiceFactory;
 use MeadSteve\DiceApi\Dice\Factories\SpecialDiceFactory;
+use MeadSteve\DiceApi\Renderer\Html;
+use MeadSteve\DiceApi\Renderer\Json;
 use MeadSteve\DiceApi\UrlDiceGenerator;
 use MeadSteve\DiceApi\DiceApp;
-use MeadSteve\DiceApi\Renderer\RendererFactory;
+use MeadSteve\DiceApi\Renderer\RendererCollection;
 use MeadSteve\DiceApi\RequestHandler\DiceRequestHandler;
 use Predis\Client;
 
@@ -20,7 +22,10 @@ $diceGenerator = new UrlDiceGenerator(
     ])
 );
 
-$rendererFactory = new RendererFactory('http://' . $_SERVER['HTTP_HOST']);
+$rendererCollection = new RendererCollection([
+    new Json(),
+    new Html('http://' . $_SERVER['HTTP_HOST'])
+]);
 
 if (isset($_ENV['REDIS_URL'])) {
     $redis = new Client(
@@ -34,6 +39,6 @@ if (isset($_ENV['REDIS_URL'])) {
 } else {
     $diceCounter = new NullCounter();
 }
-$diceRequestHandler = new DiceRequestHandler($diceGenerator, $rendererFactory, $diceCounter);
+$diceRequestHandler = new DiceRequestHandler($diceGenerator, $rendererCollection, $diceCounter);
 $app = new DiceApp($diceRequestHandler, $diceCounter);
 $app->run();

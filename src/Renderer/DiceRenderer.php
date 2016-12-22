@@ -11,8 +11,7 @@ interface DiceRenderer
      */
     public function renderDice(array $diceCollection);
 
-    /**
-     * @return string
-     */
-    public function contentType();
+    public function contentType() : string;
+
+    public function urlPrefix() : string;
 }

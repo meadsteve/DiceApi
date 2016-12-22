@@ -19,9 +19,14 @@ class Json implements DiceRenderer
     /**
      * @return string
      */
-    public function contentType()
+    public function contentType() : string
     {
         return "application/json";
+    }
+
+    public function urlPrefix(): string
+    {
+        return "json";
     }
 
     private function diceAsAssocArrays(array $diceCollection)

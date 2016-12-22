@@ -6,6 +6,7 @@ use MeadSteve\DiceApi\Dice\Factories\NumericDiceFactory;
 use MeadSteve\DiceApi\Dice\Factories\SpecialDiceFactory;
 use MeadSteve\DiceApi\Renderer\Html;
 use MeadSteve\DiceApi\Renderer\Json;
+use MeadSteve\DiceApi\Renderer\Plain;
 use MeadSteve\DiceApi\UrlDiceGenerator;
 use MeadSteve\DiceApi\DiceApp;
 use MeadSteve\DiceApi\Renderer\RendererCollection;
@@ -29,7 +30,8 @@ class DiceAppTest extends PHPUnit_Framework_TestCase
         );
         $rendererCollection = new RendererCollection([
             new Json(),
-            new Html('http://test.com')
+            new Html('http://test.com'),
+            new Plain()
         ]);
         $nullCounter = new NullCounter();
         $diceRequestHandler = new DiceRequestHandler($diceGenerator, $rendererCollection, $nullCounter);

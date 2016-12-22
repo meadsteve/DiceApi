@@ -7,6 +7,7 @@ use MeadSteve\DiceApi\Dice\Factories\NumericDiceFactory;
 use MeadSteve\DiceApi\Dice\Factories\SpecialDiceFactory;
 use MeadSteve\DiceApi\Renderer\Html;
 use MeadSteve\DiceApi\Renderer\Json;
+use MeadSteve\DiceApi\Renderer\Plain;
 use MeadSteve\DiceApi\UrlDiceGenerator;
 use MeadSteve\DiceApi\DiceApp;
 use MeadSteve\DiceApi\Renderer\RendererCollection;
@@ -18,7 +19,8 @@ require __DIR__ . "/../vendor/autoload.php";
 $diceGenerator = new UrlDiceGenerator(
     new DiceFactoryCollection([
         new NumericDiceFactory(),
-        new SpecialDiceFactory()
+        new SpecialDiceFactory(),
+        new Plain()
     ])
 );
 

@@ -17,7 +17,14 @@ class UrlDiceGenerator
         $this->diceFactory = $diceFactory;
     }
 
-    public function diceFromUrlString($urlString)
+    /**
+     * @param string $urlString
+     *
+     * @throws UncreatableDiceException
+     *
+     * @return Dice[]
+     */
+    public function diceFromUrlString(string $urlString): array
     {
         $parts = explode("/", $urlString);
         $parts = array_filter($parts, [$this, 'notBlank']);
@@ -32,17 +39,17 @@ class UrlDiceGenerator
      *
      * @return Dice[]
      */
-    private function getDiceForPart($part)
+    private function getDiceForPart(string $part): array
     {
         $data = $this->parseDiceString($part);
         return $this->diceFactory->buildDice($data["type"], $data["count"]);
     }
 
     /**
-     * @param array[]
-     * @return array
+     * @param Dice[][]
+     * @return Dice[]
      */
-    private function flattenDiceSets($diceSets)
+    private function flattenDiceSets(array $diceSets): array
     {
         $dice = [];
         foreach ($diceSets as $set) {
@@ -51,16 +58,12 @@ class UrlDiceGenerator
         return $dice;
     }
 
-    /**
-     * @param string $part
-     * @return array
-     */
-    private function parseDiceString($part)
+    private function parseDiceString(string $part): array
     {
         $data = [];
         $valid = preg_match("/(?P<count>[0-9]+)?d(?P<type>[^\/]+)/i", $part, $data);
         if (!$valid) {
-            throw new UncreatableDiceException("Problem creating dice from incorrectly formated data: " . $part);
+            throw new UncreatableDiceException("Problem creating dice from incorrectly formatted data: " . $part);
         }
         if (!$data["count"]) {
             $data["count"] = 1;
@@ -68,7 +71,7 @@ class UrlDiceGenerator
         return $data;
     }
 
-    private function notBlank($string)
+    private function notBlank(string $string)
     {
         return $string !== "";
     }

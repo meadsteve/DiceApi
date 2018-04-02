@@ -14,8 +14,12 @@ class SpecialDiceFactory implements DiceFactory
     public function __construct()
     {
         $this->diceTypeMappings = [
-            'steve' => function() {return new Dice\SteveDice();},
-            'fate'  => function() {return new Dice\FateDice();},
+            'steve' => function () {
+                return new Dice\SteveDice();
+            },
+            'fate'  => function () {
+                return new Dice\FateDice();
+            },
         ];
     }
 
@@ -44,7 +48,8 @@ class SpecialDiceFactory implements DiceFactory
         return strtolower($type);
     }
 
-    private function buildNDice($diceCount, callable $constructorFunction) {
+    private function buildNDice($diceCount, callable $constructorFunction)
+    {
         $newDice = [];
         for ($i = 0; $i < $diceCount; $i++) {
             $newDice[] = $constructorFunction();

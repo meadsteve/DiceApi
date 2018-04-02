@@ -62,7 +62,7 @@ class DiceApp extends App
         }
     }
 
-    private function addCustomRoute($path, $contentType)
+    private function addCustomRoute(string $path, string $contentType)
     {
         $diceRequestHandler = $this->diceRequestHandler;
         $this->get(

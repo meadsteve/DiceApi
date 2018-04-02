@@ -36,20 +36,16 @@ class DiceRequestHandler
             ->withHeader("cache-control", "no-cache")
             ->withHeader('Access-Control-Allow-Origin', '*');
         try {
-            $dice = $this->diceGenerator->diceFromUrlString($args['dice']);
-            if ($request->hasHeader('totally-legit')) {
-                $dice = $this->makeDiceTotallyLegit($dice, $request);
-            }
-            $diceResponse = $this->writeAppropriateFormatResponse($request, $diceResponse, $dice);
-            $this->diceCounter->count($dice);
+            $diceCollection = $this->diceCollectionFromRequest($request, $args);
+            $this->diceCounter->count($diceCollection);
+            return $this->writeAppropriateFormatResponse($request, $diceResponse, $diceCollection);
         } catch (UncreatableDiceException $creationError) {
-            $diceResponse = $diceResponse->withStatus(400)
-                ->write("Unable to roll dice: " . $creationError->getMessage());
+            return $diceResponse->withStatus(400)
+                ->write("Unable to roll diceCollection: " . $creationError->getMessage());
         } catch (UnrenderableDiceException $renderError) {
-            $diceResponse = $diceResponse->withStatus(400)
+            return $diceResponse->withStatus(400)
                 ->write("Unable to render request: " . $renderError->getMessage());
         }
-        return $diceResponse;
     }
 
     /**
@@ -62,13 +58,19 @@ class DiceRequestHandler
         return $this->rendererCollection->contentTypesForPaths();
     }
 
-    private function writeAppropriateFormatResponse(Request $request, Response $response, $dice)
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param Dice[] $diceCollection
+     * @return Response
+     */
+    private function writeAppropriateFormatResponse(Request $request, Response $response, array $diceCollection)
     {
         $acceptHeader = $request->getHeader('accept');
         $requestedContentType = $acceptHeader[0];
         try {
             $renderer = $this->rendererCollection->newForAcceptType($requestedContentType);
-            $responseWithOutput = $response->write($renderer->renderDice($dice))
+            $responseWithOutput = $response->write($renderer->renderDice($diceCollection))
                 ->withHeader("Content-Type", $renderer->contentType());
         } catch (UnknownRendererException $error) {
             $responseWithOutput = $response->withStatus(406);
@@ -77,14 +79,33 @@ class DiceRequestHandler
         return $responseWithOutput;
     }
 
-    private function makeDiceTotallyLegit($dice, Request $request)
+    /**
+     * @param Dice[] $diceCollection
+     * @param Request $request
+     * @return Dice[]
+     */
+    private function makeDiceTotallyLegit(array $diceCollection, Request $request)
     {
         $rolledValue = $request->getHeader('totally-legit')[0];
         return array_map(
             function (Dice $dice) use ($rolledValue) {
                 return new TotallyLegit($dice, (int) $rolledValue);
             },
-            $dice
+            $diceCollection
         );
+    }
+
+    /**
+     * @param Request $request
+     * @param mixed[] $args
+     * @return Dice[]
+     */
+    private function diceCollectionFromRequest(Request $request, $args)
+    {
+        $diceCollection = $this->diceGenerator->diceFromUrlString($args['diceCollection']);
+        if ($request->hasHeader('totally-legit')) {
+            return $this->makeDiceTotallyLegit($diceCollection, $request);
+        }
+        return $diceCollection;
     }
 }

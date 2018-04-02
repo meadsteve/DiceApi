@@ -7,7 +7,7 @@ use MeadSteve\DiceApi\Dice;
 class SpecialDiceFactory implements DiceFactory
 {
     /**
-     * @var callable[]
+     * @var array
      */
     private $diceTypeMappings;
 

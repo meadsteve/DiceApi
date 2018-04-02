@@ -73,6 +73,14 @@ class DiceAppTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($responseOut->getHeader("Content-Type")[0], "application/json");
     }
 
+    public function testAppCanRolldFateandReturnJson()
+    {
+        $request = $this->requestForPath("/json/2dFate");
+        $responseOut = $this->runApp($request);
+        $this->assertEquals($responseOut->getStatusCode(), 200);
+        $this->assertEquals($responseOut->getHeader("Content-Type")[0], "application/json");
+    }
+
     /**
      * @param $request
      * @return Psr\Http\Message\ResponseInterface

@@ -2,11 +2,7 @@
 
 namespace MeadSteve\DiceApi\Dice\Factories;
 
-use MeadSteve\DiceApi\Dice\BasicDice;
 use MeadSteve\DiceApi\Dice;
-use MeadSteve\DiceApi\Dice\SteveDice;
-use MeadSteve\DiceApi\Dice\UncreatableDiceException;
-use MeadSteve\DiceApi\Dice\ZeropointDice;
 
 class SpecialDiceFactory implements DiceFactory
 {
@@ -21,10 +17,18 @@ class SpecialDiceFactory implements DiceFactory
             'steve' => function ($_type, $diceCount) {
                 $newDice = [];
                 for ($i = 0; $i < $diceCount; $i++) {
-                    $newDice[] = new SteveDice();
+                    $newDice[] = new Dice\SteveDice();
+                }
+                return $newDice;
+            },
+            'fate' => function ($_type, $diceCount) {
+                $newDice = [];
+                for ($i = 0; $i < $diceCount; $i++) {
+                    $newDice[] = new Dice\FateDice();
                 }
                 return $newDice;
             }
+
         ];
     }
 

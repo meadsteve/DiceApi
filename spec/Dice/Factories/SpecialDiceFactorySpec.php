@@ -21,4 +21,9 @@ class SpecialDiceFactorySpec extends ObjectBehavior
     {
         $this->buildDice("STeVe", 1)->shouldBeLike([new Dice\SteveDice()]);
     }
+
+    function it_returns_a_fate_dice()
+    {
+        $this->buildDice("fatE", 1)->shouldBeLike([new Dice\FateDice()]);
+    }
 }

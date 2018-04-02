@@ -70,13 +70,12 @@ class DiceRequestHandler
         $requestedContentType = $acceptHeader[0];
         try {
             $renderer = $this->rendererCollection->newForAcceptType($requestedContentType);
-            $responseWithOutput = $response->write($renderer->renderDice($diceCollection))
+            return $response->write($renderer->renderDice($diceCollection))
                 ->withHeader("Content-Type", $renderer->contentType());
         } catch (UnknownRendererException $error) {
-            $responseWithOutput = $response->withStatus(406);
-            $responseWithOutput->write("Not sure how to respond with: " . $requestedContentType);
+            return $response->withStatus(406)
+                ->write("Not sure how to respond with: " . $requestedContentType);
         }
-        return $responseWithOutput;
     }
 
     /**
@@ -100,9 +99,9 @@ class DiceRequestHandler
      * @param mixed[] $args
      * @return Dice[]
      */
-    private function diceCollectionFromRequest(Request $request, $args)
+    private function diceCollectionFromRequest(Request $request, array $args)
     {
-        $diceCollection = $this->diceGenerator->diceFromUrlString($args['diceCollection']);
+        $diceCollection = $this->diceGenerator->diceFromUrlString($args['dice']);
         if ($request->hasHeader('totally-legit')) {
             return $this->makeDiceTotallyLegit($diceCollection, $request);
         }

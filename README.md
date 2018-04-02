@@ -53,9 +53,11 @@ By default the API assumes you want an html response. You have other options tho
 ### text/html
 This response type currently only supports d6 and d20 rolls.
 
-```GET http://roll.diceapi.com/d6 [Accept: text/html]```
+```bash
+curl --header "Accept: text/html" http://roll.diceapi.com/d6
+```
 
-```GET http://roll.diceapi.com/html/d6```
+`GET http://roll.diceapi.com/html/d6`
 
 Response:
 ```html
@@ -65,6 +67,8 @@ Response:
 
 ### application/json
 
-```GET http://roll.diceapi.com/d6 [Accept: application/json]```
+```bash
+curl --header "Accept: application/json" http://roll.diceapi.com/d6
+```
 
-```GET http://roll.diceapi.com/json/d6```
+`GET http://roll.diceapi.com/json/d6`

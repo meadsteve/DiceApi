@@ -2,29 +2,24 @@
 
 namespace MeadSteve\DiceApi\Dice\Factories;
 
-use MeadSteve\DiceApi\Dice\BasicDice;
 use MeadSteve\DiceApi\Dice;
-use MeadSteve\DiceApi\Dice\SteveDice;
-use MeadSteve\DiceApi\Dice\UncreatableDiceException;
-use MeadSteve\DiceApi\Dice\ZeropointDice;
 
 class SpecialDiceFactory implements DiceFactory
 {
     /**
      * @var callable[]
      */
-    private $diceTypeCallbacks;
+    private $diceTypeMappings;
 
     public function __construct()
     {
-        $this->diceTypeCallbacks = [
-            'steve' => function ($_type, $diceCount) {
-                $newDice = [];
-                for ($i = 0; $i < $diceCount; $i++) {
-                    $newDice[] = new SteveDice();
-                }
-                return $newDice;
-            }
+        $this->diceTypeMappings = [
+            'steve' => function () {
+                return new Dice\SteveDice();
+            },
+            'fate'  => function () {
+                return new Dice\FateDice();
+            },
         ];
     }
 
@@ -33,7 +28,7 @@ class SpecialDiceFactory implements DiceFactory
     {
         return array_key_exists(
             $this->normaliseType($type),
-            $this->diceTypeCallbacks
+            $this->diceTypeMappings
         );
     }
 
@@ -44,12 +39,21 @@ class SpecialDiceFactory implements DiceFactory
      */
     public function buildDice(string $type, int $number) : array
     {
-        $function = $this->diceTypeCallbacks[$this->normaliseType($type)];
-        return $function($type, $number);
+        $diceConstructor = $this->diceTypeMappings[$this->normaliseType($type)];
+        return $this->buildNDice($number, $diceConstructor);
     }
 
     private function normaliseType(string $type): string
     {
         return strtolower($type);
+    }
+
+    private function buildNDice($diceCount, callable $constructorFunction)
+    {
+        $newDice = [];
+        for ($i = 0; $i < $diceCount; $i++) {
+            $newDice[] = $constructorFunction();
+        }
+        return $newDice;
     }
 }

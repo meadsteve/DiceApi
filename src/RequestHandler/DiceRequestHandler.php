@@ -32,7 +32,9 @@ class DiceRequestHandler
 
     public function getDice(Request $request, Response $response, $args)
     {
-        $diceResponse = $response->withHeader("cache-control", "no-cache");
+        $diceResponse = $response
+            ->withHeader("cache-control", "no-cache")
+            ->withHeader('Access-Control-Allow-Origin', '*');
         try {
             $dice = $this->diceGenerator->diceFromUrlString($args['dice']);
             if ($request->hasHeader('totally-legit')) {

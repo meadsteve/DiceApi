@@ -6,6 +6,8 @@ use MeadSteve\DiceApi\Dice;
 
 class Html implements DiceRenderer
 {
+    const SUPPORTED_DICE = ["d6", "d20"];
+
     private $urlRoot;
 
     public function __construct($urlRoot)
@@ -35,8 +37,9 @@ class Html implements DiceRenderer
     public function htmlForSingleDice(Dice $dice)
     {
         $name = $dice->name();
-        if ($name != "d6" && $name != "d20") {
-            throw new UnrenderableDiceException("Currently only d6 and d20 can be rendered as html");
+        if (!in_array($name, self::SUPPORTED_DICE)) {
+            $supportedDice = implode(", ", self::SUPPORTED_DICE);
+            throw new UnrenderableDiceException("Only the following can be rendered as html: $supportedDice");
         }
         $roll = $dice->roll();
         $url = "{$this->urlRoot}/images/poorly-drawn/{$name}/{$roll}.png";

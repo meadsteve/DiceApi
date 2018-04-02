@@ -26,13 +26,13 @@ class NumericDiceFactory implements DiceFactory
             throw new UncreatableDiceException("Only dice with a power level less than 9000 can be created.");
         }
         for ($i = 0; $i < $number; $i++) {
-            $newDice[] = $this->newDiceOfSize($type);
+            $newDice[] = $this->newDiceOfSize((int) $type);
         }
         return $newDice;
     }
 
     /**
-     * @param $size
+     * @param int $size
      * @return Dice
      */
     private function newDiceOfSize($size)

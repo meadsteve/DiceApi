@@ -46,7 +46,7 @@ class UrlDiceGenerator
     }
 
     /**
-     * @param Dice[][]
+     * @param Dice[][] $diceSets
      * @return Dice[]
      */
     private function flattenDiceSets(array $diceSets): array

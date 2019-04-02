@@ -7,3 +7,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8089:8089"
+    environment:
+      REDIS_URL: redis:6379
+
+  redis:
+    image: redis:5

@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  dice-api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8089:80"

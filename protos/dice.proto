@@ -1,0 +1,13 @@
+syntax = "proto3";
+package MeadSteve.DiceApi.Protos.V1;
+
+option php_metadata_namespace = "MeadSteve\\DiceApi\\Protos\\V1\\Meta";
+
+message Dice {
+  int32 value = 1;
+  string name = 2;
+}
+
+message Response {
+  repeated  Dice dice = 1;
+}

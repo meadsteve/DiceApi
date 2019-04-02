@@ -8,6 +8,7 @@ use MeadSteve\DiceApi\Dice\Factories\SpecialDiceFactory;
 use MeadSteve\DiceApi\Renderer\Html;
 use MeadSteve\DiceApi\Renderer\Json;
 use MeadSteve\DiceApi\Renderer\Plain;
+use MeadSteve\DiceApi\Renderer\Protobuf;
 use MeadSteve\DiceApi\UrlDiceGenerator;
 use MeadSteve\DiceApi\DiceApp;
 use MeadSteve\DiceApi\Renderer\RendererCollection;
@@ -26,6 +27,7 @@ $diceGenerator = new UrlDiceGenerator(
 $rendererCollection = new RendererCollection([
     new Json(),
     new Html('http://' . $_SERVER['HTTP_HOST']),
+    new Protobuf(),
     new Plain()
 ]);
 

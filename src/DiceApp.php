@@ -10,6 +10,7 @@ use Slim\Http\Response;
 
 class DiceApp extends App
 {
+    private const indexFilePath = __DIR__ . "/generated-index.html";
     private $diceCounter;
     private $diceRequestHandler;
 
@@ -25,20 +26,30 @@ class DiceApp extends App
         $this->setupRoutes();
     }
 
+    /**
+     * Builds a nice index file from the repo's README.md
+     * Saves it and returns it.
+     *
+     * @return string
+     */
+    public static function buildIndex()
+    {
+        $converter = new CommonMarkConverter();
+        $indexBody = $converter->convertToHtml(file_get_contents(__DIR__ . "/../README.md"));
+        $indexContent = file_get_contents(__DIR__ . "/../www/templates/index.html");
+        $indexContent = str_replace("{{body}}", $indexBody, $indexContent);
+        file_put_contents(self::indexFilePath, $indexContent);
+        return $indexContent;
+    }
+
     public function index(Request $request, Response $response)
     {
-        $indexFilePath = __DIR__ . "/generated-index.html";
-        if (!file_exists($indexFilePath)) {
-            $converter = new CommonMarkConverter();
-            $indexBody = $converter->convertToHtml(file_get_contents(__DIR__ . "/../README.md"));
-            $indexContent = file_get_contents(__DIR__ . "/../www/templates/index.html");
-            $indexContent = str_replace("{{body}}", $indexBody, $indexContent);
-            file_put_contents($indexFilePath, $indexContent);
-            $response->write($indexContent);
+        if (!file_exists(self::indexFilePath)) {
+            $indexContent = self::buildIndex();
         } else {
-            $indexContent = file_get_contents($indexFilePath);
-            $response->write($indexContent);
+            $indexContent = file_get_contents(self::indexFilePath);
         }
+        $response->write($indexContent);
         return $response;
     }
 

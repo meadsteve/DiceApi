@@ -33,6 +33,11 @@ COPY  ./src /app/src/
 RUN php composer.phar dump-autoload --no-dev \
  && rm composer.phar
 
+# We make a nice index.html file built from the README
+COPY ./scripts /app/scripts
+COPY ./README.md /app
+RUN php /app/scripts/build_index.php
+
 ###################################################################################
 # This is the final image that we'll serve from
 FROM base AS final
@@ -53,7 +58,6 @@ RUN mkdir -p /run/nginx
 
 # The builder has already pulled all composer deps & built the autoloader
 COPY --from=builder /app /app
-COPY ./README.md /app
 
 EXPOSE 8089
 CMD ["/etc/run_app.sh"]

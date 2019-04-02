@@ -60,7 +60,8 @@ class DiceApp extends App
             ->withHeader("Content-Type", "application/json");
     }
 
-    public function healthCheck(Request $request, Response $response) {
+    public function healthCheck(Request $request, Response $response)
+    {
         return $response->write("ok");
     }
 

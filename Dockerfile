@@ -28,7 +28,8 @@ RUN php composer.phar install \
 COPY  ./www /app/www/
 COPY  ./src /app/src/
 
-RUN php composer.phar dump-autoload --no-dev
+RUN php composer.phar dump-autoload --no-dev \
+ && rm composer.phar
 
 FROM base AS final
 WORKDIR /app
@@ -43,9 +44,9 @@ RUN { \
 
 
 COPY ./docker/nginx-site.conf /etc/nginx/sites-enabled/default
-COPY ./docker/entrypoint.sh /etc/entrypoint.sh
+COPY ./docker/run_app.sh /etc/run_app.sh
 
 COPY --from=builder /app /app
 
 EXPOSE 80 443
-ENTRYPOINT ["/etc/entrypoint.sh"]
+CMD ["/etc/run_app.sh"]

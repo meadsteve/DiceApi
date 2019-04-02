@@ -10,7 +10,7 @@ use Slim\Http\Response;
 
 class DiceApp extends App
 {
-    private const indexFilePath = __DIR__ . "/generated-index.html";
+    private const INDEX_FILE_PATH = __DIR__ . "/generated-index.html";
     private $diceCounter;
     private $diceRequestHandler;
 
@@ -38,16 +38,16 @@ class DiceApp extends App
         $indexBody = $converter->convertToHtml(file_get_contents(__DIR__ . "/../README.md"));
         $indexContent = file_get_contents(__DIR__ . "/../www/templates/index.html");
         $indexContent = str_replace("{{body}}", $indexBody, $indexContent);
-        file_put_contents(self::indexFilePath, $indexContent);
+        file_put_contents(self::INDEX_FILE_PATH, $indexContent);
         return $indexContent;
     }
 
     public function index(Request $request, Response $response)
     {
-        if (!file_exists(self::indexFilePath)) {
+        if (!file_exists(self::INDEX_FILE_PATH)) {
             $indexContent = self::buildIndex();
         } else {
-            $indexContent = file_get_contents(self::indexFilePath);
+            $indexContent = file_get_contents(self::INDEX_FILE_PATH);
         }
         $response->write($indexContent);
         return $response;

@@ -1,3 +1,5 @@
-#!/usr/bin/env bash
-service nginx start
+#!/usr/bin/env sh
+set -ex
+
+nginx -g 'pid /tmp/nginx.pid;'
 php-fpm

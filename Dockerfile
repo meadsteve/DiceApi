@@ -8,6 +8,7 @@ ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11"
 
 RUN docker-php-ext-install opcache
 
+###################################################################################
 # Has all the files AND composer installed constructs everything needed for the app
 FROM base AS builder
 WORKDIR /app
@@ -32,6 +33,7 @@ COPY  ./src /app/src/
 RUN php composer.phar dump-autoload --no-dev \
  && rm composer.phar
 
+###################################################################################
 # This is the final image that we'll serve from
 FROM base AS final
 WORKDIR /app

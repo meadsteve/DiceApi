@@ -1,5 +1,5 @@
 server {
-    listen   8089;
+    listen   $PORT;
     root    /app/www;
 
     include /etc/nginx/default.d/*.conf;

@@ -1,7 +1,8 @@
 FROM php:7.3.3-fpm-alpine3.9 AS base
 
 RUN apk update \
-    && apk add nginx
+    && apk add nginx \
+    && apk add gettext
 
 # PHP_CPPFLAGS are used by the docker-php-ext-* scripts
 ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11"
@@ -52,7 +53,7 @@ RUN { \
     } > /usr/local/etc/php/conf.d/php-opocache-cfg.ini
 
 
-COPY ./docker/nginx-site.conf /etc/nginx/conf.d/
+COPY docker/nginx-site.template /etc/nginx/conf.d/
 COPY ./docker/run_app.sh /etc/run_app.sh
 RUN mkdir -p /run/nginx
 
@@ -61,4 +62,4 @@ COPY --from=builder /app /app
 
 EXPOSE 8089
 CMD ["/etc/run_app.sh"]
-HEALTHCHECK CMD curl http://localhost:8089/health-check
+HEALTHCHECK CMD curl http://localhost:${PORT}/health-check

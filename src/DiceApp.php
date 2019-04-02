@@ -49,12 +49,17 @@ class DiceApp extends App
             ->withHeader("Content-Type", "application/json");
     }
 
+    public function healthCheck(Request $request, Response $response) {
+        return $response->write("ok");
+    }
+
     private function setupRoutes()
     {
         $diceRequestHandler = $this->diceRequestHandler;
 
         $this->get("/", [$this, 'index']);
         $this->get("/dice-stats", [$this, 'diceStats']);
+        $this->get("/health-check", [$this, 'healthCheck']);
         $this->get(self::DICE_PATH_REGEX, [$diceRequestHandler, 'getDice']);
 
         foreach ($this->diceRequestHandler->contentTypesForPaths() as $path => $contentType) {

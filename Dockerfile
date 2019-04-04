@@ -9,6 +9,10 @@ ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11"
 
 RUN docker-php-ext-install opcache
 
+# Images should install their own site specific config
+RUN rm /etc/nginx/conf.d/*
+COPY ./docker/nginx.conf /etc/nginx/nginx.conf
+
 ###################################################################################
 # Has all the files AND composer installed constructs everything needed for the app
 FROM base AS builder
@@ -52,14 +56,12 @@ RUN { \
         echo 'opcache.enable_cli=1'; \
     } > /usr/local/etc/php/conf.d/php-opocache-cfg.ini
 
-
-COPY docker/nginx-site.template /etc/nginx/conf.d/
+COPY ./docker/nginx-site.template /etc/nginx/conf.d/
 COPY ./docker/run_app.sh /etc/run_app.sh
-RUN mkdir -p /run/nginx
 
 # The builder has already pulled all composer deps & built the autoloader
 COPY --from=builder /app /app
 
-EXPOSE 8089
+EXPOSE $PORT
 CMD ["/etc/run_app.sh"]
 HEALTHCHECK CMD curl http://localhost:${PORT}/health-check

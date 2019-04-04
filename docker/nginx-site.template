@@ -1,8 +1,6 @@
 server {
-    listen   $PORT;
+    listen   $PORT default_server;
     root    /app/www;
-
-    include /etc/nginx/default.d/*.conf;
 
     index app.php index.php index.html index.htm;
 

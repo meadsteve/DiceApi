@@ -1,8 +1,6 @@
 <?php
 namespace MeadSteve\DiceApi\Helpers;
 
-use http\Exception\RuntimeException;
-
 function file_contents(string $path): string
 {
     $contents = \file_get_contents($path);

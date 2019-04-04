@@ -2,11 +2,12 @@ language: php
 php:
   - 7.1
   - 7.2
+  - 7.3
 
 install: composer install
 script:
-  - ./vendor/bin/phpspec run
-  - ./vendor/bin/phpcs --standard=PSR2 --ignore=src/Protos src/
   - ./vendor/bin/phpunit -c tests/app-tests.xml
+  - ./vendor/bin/phpspec run
   - ./vendor/bin/phpstan analyse src --level max
   - ./vendor/bin/psalm --show-info=false
+  - ./vendor/bin/phpcs --standard=PSR2 --ignore=src/Protos src/

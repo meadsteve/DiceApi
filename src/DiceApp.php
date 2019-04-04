@@ -8,6 +8,9 @@ use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+use function MeadSteve\DiceApi\Helpers\file_contents;
+use function MeadSteve\DiceApi\Helpers\json_encode;
+
 class DiceApp extends App
 {
     private const INDEX_FILE_PATH = __DIR__ . "/generated-index.html";
@@ -35,8 +38,8 @@ class DiceApp extends App
     public static function buildIndex()
     {
         $converter = new CommonMarkConverter();
-        $indexBody = $converter->convertToHtml(file_get_contents(__DIR__ . "/../README.md"));
-        $indexContent = file_get_contents(__DIR__ . "/../www/templates/index.html");
+        $indexBody = $converter->convertToHtml(file_contents(__DIR__ . "/../README.md"));
+        $indexContent = file_contents(__DIR__ . "/../www/templates/index.html");
         $indexContent = str_replace("{{body}}", $indexBody, $indexContent);
         file_put_contents(self::INDEX_FILE_PATH, $indexContent);
         return $indexContent;
@@ -47,7 +50,7 @@ class DiceApp extends App
         if (!file_exists(self::INDEX_FILE_PATH)) {
             $indexContent = self::buildIndex();
         } else {
-            $indexContent = file_get_contents(self::INDEX_FILE_PATH);
+            $indexContent = file_contents(self::INDEX_FILE_PATH);
         }
         $response->write($indexContent);
         return $response;
@@ -72,7 +75,7 @@ class DiceApp extends App
         $this->get("/", [$this, 'index']);
         $this->get("/dice-stats", [$this, 'diceStats']);
         $this->get("/health-check", [$this, 'healthCheck']);
-        $this->get(self::DICE_PATH_REGEX, [$diceRequestHandler, 'getDice']);
+        $this->get(self::DICE_PATH_REGEX, $diceRequestHandler);
 
         foreach ($this->diceRequestHandler->contentTypesForPaths() as $path => $contentType) {
             $this->addCustomRoute($path, $contentType);

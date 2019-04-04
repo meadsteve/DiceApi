@@ -30,6 +30,11 @@ class DiceRequestHandler
         $this->diceCounter = $diceCounter;
     }
 
+    public function __invoke(Request $request, Response $response, $args)
+    {
+        return $this->getDice($request, $response, $args);
+    }
+
     public function getDice(Request $request, Response $response, $args)
     {
         $diceResponse = $response

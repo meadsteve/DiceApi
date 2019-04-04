@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  dice-api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8089:8089"
+    environment:
+      REDIS_URL: redis:6379
+      PORT: 8089
+
+  redis:
+    image: redis:5

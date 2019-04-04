@@ -7,7 +7,7 @@ class RendererCollection
     /**
      * @var DiceRenderer[]
      */
-    private $renderers;
+    private $renderers = [];
 
     /**
      * RendererCollection constructor.

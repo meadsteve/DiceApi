@@ -21,7 +21,8 @@
     "phpspec/phpspec": "2.4.0-rc1",
     "squizlabs/php_codesniffer": "^2.3.2",
     "phpunit/phpunit": "^4.6.6",
-    "phpstan/phpstan": "^0.11.5"
+    "phpstan/phpstan": "^0.11.5",
+    "vimeo/psalm": "^3.2"
   },
 
   "autoload": {

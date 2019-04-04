@@ -9,3 +9,4 @@ script:
   - ./vendor/bin/phpcs --standard=PSR2 --ignore=src/Protos src/
   - ./vendor/bin/phpunit -c tests/app-tests.xml
   - ./vendor/bin/phpstan analyse src --level max
+  - ./vendor/bin/psalm --show-info=false

@@ -13,7 +13,7 @@ class FateDice implements Dice
         return "dFATE";
     }
 
-    public function roll()
+    public function roll(): string
     {
         return self::VALUES[array_rand(self::VALUES)];
     }

@@ -6,10 +6,17 @@ use MeadSteve\DiceApi\Dice;
 
 class TotallyLegit implements Dice
 {
+    /**
+     * @var Dice
+     */
     private $dice;
+
+    /**
+     * @var int
+     */
     private $alwaysRoll;
 
-    public function __construct(Dice $dice, $alwaysRoll = 6)
+    public function __construct(Dice $dice, int $alwaysRoll = 6)
     {
         $this->dice = $dice;
         $this->alwaysRoll = (int) $alwaysRoll;
@@ -19,7 +26,7 @@ class TotallyLegit implements Dice
         return $this->dice->name();
     }
 
-    public function roll()
+    public function roll(): int
     {
         return $this->alwaysRoll;
     }

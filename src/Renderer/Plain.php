@@ -25,7 +25,7 @@ class Plain implements DiceRenderer
         return "string";
     }
 
-    public function textForSingleDice(Dice $dice)
+    public function textForSingleDice(Dice $dice): string
     {
         return "{$dice->name()} : {$dice->roll()}";
     }

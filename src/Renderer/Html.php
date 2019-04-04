@@ -8,9 +8,12 @@ class Html implements DiceRenderer
 {
     const SUPPORTED_DICE = ["d6", "d20"];
 
+    /**
+     * @var string
+     */
     private $urlRoot;
 
-    public function __construct($urlRoot)
+    public function __construct(string $urlRoot)
     {
         $this->urlRoot = $urlRoot;
     }
@@ -21,9 +24,6 @@ class Html implements DiceRenderer
         return implode('', $diceHtmlParts);
     }
 
-    /**
-     * @return string
-     */
     public function contentType() : string
     {
         return "text/html";
@@ -34,7 +34,7 @@ class Html implements DiceRenderer
         return "html";
     }
 
-    public function htmlForSingleDice(Dice $dice)
+    public function htmlForSingleDice(Dice $dice): string
     {
         $name = $dice->name();
         if (!in_array($name, self::SUPPORTED_DICE)) {

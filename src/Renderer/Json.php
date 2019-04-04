@@ -29,9 +29,13 @@ class Json implements DiceRenderer
         return "json";
     }
 
+    /**
+     * @param Dice[] $diceCollection
+     * @return string[][]
+     */
     private function diceAsAssocArrays(array $diceCollection)
     {
-        return array_map(function (Dice $dice) {
+        return array_map(function (Dice $dice): array {
             return [
                 "value" => $dice->roll(),
                 "type"  => $dice->name()

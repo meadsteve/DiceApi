@@ -11,7 +11,7 @@ class SteveDice implements Dice
         return "dSTEVE";
     }
 
-    public function roll()
+    public function roll(): string
     {
         return "Steve";
     }

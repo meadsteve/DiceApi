@@ -11,7 +11,7 @@ class ZeropointDice implements Dice
         return "d0";
     }
 
-    public function roll()
+    public function roll(): string
     {
         return "Singularity";
     }

@@ -3,6 +3,7 @@
 namespace MeadSteve\DiceApi\Renderer;
 
 use MeadSteve\DiceApi\Dice;
+use MeadSteve\DiceApi\Protos\V1\Dice as DiceProtobuf;
 use MeadSteve\DiceApi\Protos\V1\Response;
 
 class Protobuf implements DiceRenderer
@@ -33,8 +34,8 @@ class Protobuf implements DiceRenderer
 
     private function diceAsProtos(array $diceCollection)
     {
-        return array_map(function (Dice $dice) {
-            $proto = new \MeadSteve\DiceApi\Protos\V1\Dice();
+        return array_map(function (Dice $dice) : DiceProtobuf {
+            $proto = new DiceProtobuf();
             $proto->setValue($dice->roll());
             $proto->setName($dice->name());
             return $proto;

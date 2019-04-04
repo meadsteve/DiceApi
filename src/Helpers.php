@@ -3,7 +3,7 @@ namespace MeadSteve\DiceApi\Helpers;
 
 use http\Exception\RuntimeException;
 
-function file_contents($path)
+function file_contents(string $path): string
 {
     $contents = \file_get_contents($path);
     if ($contents === false) {
@@ -12,7 +12,7 @@ function file_contents($path)
     return $contents;
 }
 
-function json_encode($data)
+function json_encode($data): string
 {
     $encoded = \json_encode($data);
     if ($encoded === false) {

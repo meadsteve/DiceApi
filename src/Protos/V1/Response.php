@@ -43,7 +43,7 @@ class Response extends \Google\Protobuf\Internal\Message
 
     /**
      * Generated from protobuf field <code>repeated .MeadSteve.DiceApi.Protos.V1.Dice dice = 1;</code>
-     * @param \MeadSteve\DiceApi\Protos\V1\Dice[]|\Google\Protobuf\Internal\RepeatedField $var
+     * @param \MeadSteve\DiceApi\Protos\V1\Dice[] | \Google\Protobuf\Internal\RepeatedField $var
      * @return $this
      */
     public function setDice($var)

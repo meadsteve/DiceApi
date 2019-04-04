@@ -71,7 +71,7 @@ class UrlDiceGenerator
         return $data;
     }
 
-    private function notBlank(string $string)
+    private function notBlank(string $string): bool
     {
         return $string !== "";
     }

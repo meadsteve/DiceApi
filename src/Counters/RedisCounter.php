@@ -8,7 +8,9 @@ use Predis\Connection\ConnectionException;
 
 class RedisCounter implements DiceCounter
 {
-
+    /**
+     * @var Client
+     */
     private $redisClient;
 
     public function __construct(Client $redisClient)

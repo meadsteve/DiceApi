@@ -15,9 +15,19 @@ use Slim\Http\Response;
 
 class DiceRequestHandler
 {
-
+    /**
+     * @var UrlDiceGenerator
+     */
     private $diceGenerator;
+
+    /**
+     * @var DiceCounter
+     */
     private $diceCounter;
+
+    /**
+     * @var RendererCollection
+     */
     private $rendererCollection;
 
     public function __construct(
@@ -35,7 +45,7 @@ class DiceRequestHandler
         return $this->getDice($request, $response, $args);
     }
 
-    public function getDice(Request $request, Response $response, $args)
+    public function getDice(Request $request, Response $response, $args): Response
     {
         $diceResponse = $response
             ->withHeader("cache-control", "no-cache")
@@ -92,7 +102,7 @@ class DiceRequestHandler
     {
         $rolledValue = $request->getHeader('totally-legit')[0];
         return array_map(
-            function (Dice $dice) use ($rolledValue) {
+            function (Dice $dice) use ($rolledValue): Dice {
                 return new TotallyLegit($dice, (int) $rolledValue);
             },
             $diceCollection

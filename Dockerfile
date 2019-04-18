@@ -64,4 +64,4 @@ COPY --from=builder /app /app
 
 EXPOSE $PORT
 CMD ["/etc/run_app.sh"]
-HEALTHCHECK CMD curl http://localhost:${PORT}/health-check
+HEALTHCHECK CMD curl -f http://localhost:${PORT}/health-check || exit 1

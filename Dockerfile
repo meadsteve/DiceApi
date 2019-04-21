@@ -31,8 +31,7 @@ RUN /tmp/install_composer.sh && rm /tmp/install_composer.sh
 
 # Install the dependencies
 COPY ./composer.* /app/
-RUN php composer.phar install \
- && rm -rf /home/root/.composer/cache
+RUN php composer.phar install
 
 # Copy over our app code
 COPY  ./www /app/www/
@@ -41,13 +40,20 @@ COPY  ./src /app/src/
 ###################################################################################
 # Uses the base to build everything prod needs
 FROM builder AS prod-source
-# None of the dev dependencies are needed by this point
-RUN php composer.phar dump-autoload --no-dev
-
 # We make a nice index.html file built from the README
 COPY ./scripts /app/scripts
 COPY ./README.md /app
-RUN php /app/scripts/build_index.php
+RUN php /app/scripts/build_index.php \
+ && rm README.md \
+ && rm -rf scripts/
+
+# None of the dev dependencies are needed by this point
+RUN rm -rf vendor/ \
+ && php composer.phar install --no-dev \
+ && php composer.phar dump-autoload --no-dev
+
+# The built image doesnt need composer
+RUN rm composer.*
 
 ###################################################################################
 # This is the final image that we'll serve from

@@ -12,11 +12,16 @@ RUN docker-php-ext-install opcache
 # Images should install their own site specific config
 RUN rm /etc/nginx/conf.d/*
 COPY ./docker/nginx.conf /etc/nginx/nginx.conf
+COPY ./docker/nginx-site.template /etc/nginx/conf.d/
+COPY ./docker/run_app.sh /etc/run_app.sh
 
 ###################################################################################
 # Has all the files AND composer installed constructs everything needed for the app
 FROM base AS builder
 WORKDIR /app
+
+# Used by the test watcher
+RUN apk add entr
 
 # Composer needs git and some zip deps
 RUN apk add git libzip-dev
@@ -33,10 +38,11 @@ RUN php composer.phar install \
 COPY  ./www /app/www/
 COPY  ./src /app/src/
 
-# Now all the app code is over we can build the final autoloader and
-# remove composer.
-RUN php composer.phar dump-autoload --no-dev \
- && rm composer.phar
+###################################################################################
+# Uses the base to build everything prod needs
+FROM builder AS prod-source
+# None of the dev dependencies are needed by this point
+RUN php composer.phar dump-autoload --no-dev
 
 # We make a nice index.html file built from the README
 COPY ./scripts /app/scripts
@@ -45,7 +51,7 @@ RUN php /app/scripts/build_index.php
 
 ###################################################################################
 # This is the final image that we'll serve from
-FROM base AS final
+FROM base AS prod
 WORKDIR /app
 RUN { \
         echo 'opcache.memory_consumption=128'; \
@@ -56,11 +62,8 @@ RUN { \
         echo 'opcache.enable_cli=1'; \
     } > /usr/local/etc/php/conf.d/php-opocache-cfg.ini
 
-COPY ./docker/nginx-site.template /etc/nginx/conf.d/
-COPY ./docker/run_app.sh /etc/run_app.sh
-
 # The builder has already pulled all composer deps & built the autoloader
-COPY --from=builder /app /app
+COPY --from=prod-source /app /app
 
 EXPOSE $PORT
 CMD ["/etc/run_app.sh"]

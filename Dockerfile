@@ -40,6 +40,7 @@ COPY  ./src /app/src/
 ###################################################################################
 # Uses the base to build everything prod needs
 FROM builder AS prod-source
+
 # We make a nice index.html file built from the README
 COPY ./scripts /app/scripts
 COPY ./README.md /app

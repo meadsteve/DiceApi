@@ -10,7 +10,7 @@
   "require": {
     "slim/slim": "^3.6",
     "predis/predis": "^1.0.1",
-    "league/commonmark": "^0.8.0",
+    "league/commonmark": "^0.18.3",
     "php": ">=7.1, <8.0",
     "google/protobuf": "^3.7",
     "ext-json": "*"

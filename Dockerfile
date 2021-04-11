@@ -1,4 +1,4 @@
-FROM php:7.3.3-fpm-alpine3.9 AS base
+FROM php:7.4.16-fpm-alpine3.13 AS base
 
 RUN apk update \
     && apk add nginx \

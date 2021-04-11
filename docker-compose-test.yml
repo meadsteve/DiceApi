@@ -13,3 +13,5 @@ services:
       - ./docker:/app/docker
       - ./phpspec.yml:/app/phpspec.yml
       - ./psalm.xml:/app/psalm.xml
+      - ./composer.json:/app/composer.json
+      - ./composer.lock:/app/composer.lock

@@ -11,4 +11,4 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Run tests in a container
-      run: ./run-tests.sh
+      run: ./run_tests.sh

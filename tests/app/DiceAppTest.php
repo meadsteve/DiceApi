@@ -11,16 +11,17 @@ use MeadSteve\DiceApi\UrlDiceGenerator;
 use MeadSteve\DiceApi\DiceApp;
 use MeadSteve\DiceApi\Renderer\RendererCollection;
 use MeadSteve\DiceApi\RequestHandler\DiceRequestHandler;
+use PHPUnit\Framework\TestCase;
 use Slim\Http\Body;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class DiceAppTest extends PHPUnit_Framework_TestCase
+class DiceAppTest extends TestCase
 {
     private $app;
 
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $diceGenerator = new UrlDiceGenerator(
             new DiceFactoryCollection([

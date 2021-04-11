@@ -21,7 +21,6 @@
     "phpspec/phpspec": "7.0.1",
     "squizlabs/php_codesniffer": "^2.3.2",
     "phpunit/phpunit": "^9.5.4",
-    "phpstan/phpstan": "^0.12.83",
     "vimeo/psalm": "^4.7"
   },
 

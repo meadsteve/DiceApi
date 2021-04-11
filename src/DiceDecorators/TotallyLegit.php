@@ -19,7 +19,7 @@ class TotallyLegit implements Dice
     public function __construct(Dice $dice, int $alwaysRoll = 6)
     {
         $this->dice = $dice;
-        $this->alwaysRoll = (int) $alwaysRoll;
+        $this->alwaysRoll = $alwaysRoll;
     }
     public function name() : string
     {

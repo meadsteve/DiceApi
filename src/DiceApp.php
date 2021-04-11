@@ -8,6 +8,7 @@ use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+use function foo\func;
 use function MeadSteve\DiceApi\Helpers\file_contents;
 use function MeadSteve\DiceApi\Helpers\json_encode;
 
@@ -34,6 +35,9 @@ class DiceApp extends App
         $this->diceCounter = $diceCounter;
 
         $this->setupRoutes();
+        $this->tip = function (){
+
+        };
     }
 
     /**

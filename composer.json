@@ -17,12 +17,12 @@
   },
 
   "require-dev": {
-    "heroku/heroku-buildpack-php": "v67",
-    "phpspec/phpspec": "2.4.0-rc1",
+    "heroku/heroku-buildpack-php": "v190",
+    "phpspec/phpspec": "7.0.1",
     "squizlabs/php_codesniffer": "^2.3.2",
-    "phpunit/phpunit": "^4.6.6",
-    "phpstan/phpstan": "^0.11.5",
-    "vimeo/psalm": "^3.2"
+    "phpunit/phpunit": "^9.5.4",
+    "phpstan/phpstan": "^0.12.83",
+    "vimeo/psalm": "^4.7"
   },
 
   "autoload": {

@@ -12,6 +12,9 @@ use function foo\func;
 use function MeadSteve\DiceApi\Helpers\file_contents;
 use function MeadSteve\DiceApi\Helpers\json_encode;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 class DiceApp extends App
 {
     const DICE_PATH_REGEX = "{dice:(?:/[0-9]*[dD][^\/]+)+/?}";
@@ -35,7 +38,6 @@ class DiceApp extends App
         $this->diceCounter = $diceCounter;
 
         $this->setupRoutes();
-        $this->seedMiddlewareStack();
     }
 
     /**

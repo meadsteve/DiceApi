@@ -35,8 +35,7 @@ class DiceApp extends App
         $this->diceCounter = $diceCounter;
 
         $this->setupRoutes();
-        $this->tip = function () {
-        };
+        $this->seedMiddlewareStack();
     }
 
     /**

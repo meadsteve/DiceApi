@@ -10,22 +10,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-    - name: Cache Docker layers
-      uses: actions/cache@v2
+    - uses: satackey/action-docker-layer-caching@v0.0.11
+      # Ignore the failure of a step and avoid terminating the job.
+      continue-on-error: true
       with:
-        path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ hashFiles('Dockerfile', 'composer.*', 'docker/**') }}
+        key: dockache-${{ runner.os }}-${{ hashFiles('Dockerfile', 'composer.*', 'docker/**') }}
         restore-keys: |
-          ${{ runner.os }}-buildx-
-    - name: Build docker container
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        push: false
-        target: builder
-        cache-from: type=local,src=/tmp/.buildx-cache
-        cache-to: type=local,dest=/tmp/.buildx-cache
+          dockache-${{ runner.os }}
     - name: Run tests within container
       run: ./run_tests.sh

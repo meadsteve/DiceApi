@@ -19,7 +19,13 @@ jobs:
         key: ${{ runner.os }}-buildx-${{ hashFiles('Dockerfile', 'composer.*', 'docker/**') }}
         restore-keys: |
           ${{ runner.os }}-buildx-
-    - name: Build test containers
-      run: docker-compose -f docker-compose-test.yml build
+    - name: Build docker container
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: false
+        target: builder
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache
     - name: Run tests within container
       run: ./run_tests.sh

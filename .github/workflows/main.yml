@@ -15,6 +15,10 @@ jobs:
         path: | 
           /var/lib/docker
         key: ${{ runner.os }}-${{ hashFiles('Dockerfile', 'composer.*', 'docker/**') }}
+        restore-keys: |
+          ${{ runner.os }}-
+    - name: experimenting
+      run: docker info
     - name: Build test containers
       run: docker-compose -f docker-compose-test.yml build
     - name: Run tests within container

@@ -1,6 +1,6 @@
 name: Docker Image CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
 
@@ -10,5 +10,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Run tests in a container
+    - uses: satackey/action-docker-layer-caching@v0.0.11
+      # Ignore the failure of a step and avoid terminating the job.
+      continue-on-error: true
+      with:
+        key: dockache-${{ runner.os }}-${{ hashFiles('Dockerfile', 'composer.*', 'docker/**') }}
+        restore-keys: |
+          dockache-${{ runner.os }}
+    - name: Run tests using docker-compose
       run: ./run_tests.sh

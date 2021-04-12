@@ -17,5 +17,5 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles('Dockerfile', 'composer.*', 'docker/**') }}
     - name: Build test containers
       run: docker-compose -f docker-compose-test.yml build
-    - name: Run tests in a container
+    - name: Run tests within container
       run: ./run_tests.sh

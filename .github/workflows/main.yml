@@ -17,5 +17,5 @@ jobs:
         key: dockache-${{ runner.os }}-${{ hashFiles('Dockerfile', 'composer.*', 'docker/**') }}
         restore-keys: |
           dockache-${{ runner.os }}
-    - name: Run tests within container
+    - name: Run tests using docker-compose
       run: ./run_tests.sh

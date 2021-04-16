@@ -11,7 +11,7 @@
     "slim/slim": "^3.6",
     "predis/predis": "^1.0.1",
     "league/commonmark": "^0.18.3",
-    "php": ">=7.1, <8.0",
+    "php": ">=8.0, <9.0",
     "google/protobuf": "^3.7",
     "ext-json": "*"
   },
@@ -19,7 +19,7 @@
   "require-dev": {
     "heroku/heroku-buildpack-php": "v190",
     "phpspec/phpspec": "7.0.1",
-    "squizlabs/php_codesniffer": "^2.3.2",
+    "squizlabs/php_codesniffer": "^3.6.0",
     "phpunit/phpunit": "^9.5.4",
     "vimeo/psalm": "^4.7"
   },

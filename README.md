@@ -4,6 +4,9 @@
 
 This is a semi joking api to simulate a pile of dice being thrown. The idea is fully inspired by/stolen from [deckofcardsapi.com](http://deckofcardsapi.com/). If you find any bugs or have feature requests, the project can be found on github at [DiceApi on GitHub](https://github.com/meadsteve/DiceApi/) or send me a tweet [@MeadSteve](https://twitter.com/MeadSteve).
 
+## *Retired* !! 🛌🏼 
+The API is no longer available at roll.diceapi.com. I decided to drop the domain to free up money for more domains.
+
 ## Rolling 
 ### Roll a single dice
 ```GET http://roll.diceapi.com/json/d6```
